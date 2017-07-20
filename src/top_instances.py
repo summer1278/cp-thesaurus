@@ -1,7 +1,9 @@
 
 """
 Test Methods for CP thesaurus
+modified from expand.py written by Danushka Bollegala
 
+Xia Cui
 July 2017
 """
 import sys
@@ -47,7 +49,45 @@ def train_with_CV(X_train, y_train, X_test, y_test):
     print find_indices(np.sign(np.multiply(clf.predict(X_train),y_test)),1)
     pass
 
-def non_expansion():
+# short text classification
+def evaluate(self,bench,k):
+    train_fname = "%s/train" % bench
+    test_fname = "%s/test" % bench
+    train_feats = self.get_feature_set(train_fname)
+    print "k = %d" % k
+    print "Total no. of train features =", len(train_feats)
+    test_feats = self.get_feature_set(test_fname)
+    print "Total no. of test features =", len(test_feats)
+    for feat in train_feats:
+        self.wid.setdefault(feat, len(self.wid))
+    for feat in test_feats:
+        self.wid.setdefault(feat, len(self.wid))
+    print "Total no. of all features =", len(self.wid)
+
+    if 0:
+        # no expansion
+        train_data = np.array([self.get_feat_vect(line) for line in open(train_fname)])     
+        test_data = np.array([self.get_feat_vect(line) for line in open(test_fname)])     
+
+        X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+        X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+       
+        # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
+        best_theta, train_acc, test_acc = train_with_CV(X_train, y_train, X_test, y_test)
+        
+        print "\n ---- NO Expansion ----"
+        print "Train accuracy =", train_acc
+        print "Test accuracy =", test_acc
+        print "Best theta =", best_theta  
+    pass
+
+
+
+def non_expansion(CP, res_file, dataset):
+    print dataset
+    res_file.write("%s, " % dataset)
+    l2, train_acc, test_acc = evaluate("../data/%s" % dataset, 0)
+    res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
 
@@ -64,7 +104,7 @@ def main():
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
         # batch_process(CP, res_file, dataset)
-        #non_expansion(CP, res_file, dataset)
+        non_expansion(CP, res_file, dataset)
     res_file.close()
 
 if __name__ == '__main__':
