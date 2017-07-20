@@ -54,7 +54,7 @@ def non_expansion():
 def main():
     # dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
-    # dict_name = sys.argv[1]
+    dict_name = sys.argv[1]
     res_file = open("../work/%s-batchres.csv" % dict_name, 'w')
     res_file.write("dataset, k, l2, true_instances, false_instances\n")
 
