@@ -50,24 +50,24 @@ def train_with_CV(X_train, y_train, X_test, y_test):
     pass
 
 # short text classification
-def evaluate(self,bench,k):
+def evaluate(CP,bench,k):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
-    train_feats = self.get_feature_set(train_fname)
+    train_feats = CP.get_feature_set(train_fname)
     print "k = %d" % k
     print "Total no. of train features =", len(train_feats)
-    test_feats = self.get_feature_set(test_fname)
+    test_feats = CP.get_feature_set(test_fname)
     print "Total no. of test features =", len(test_feats)
     for feat in train_feats:
-        self.wid.setdefault(feat, len(self.wid))
+        CP.wid.setdefault(feat, len(CP.wid))
     for feat in test_feats:
-        self.wid.setdefault(feat, len(self.wid))
-    print "Total no. of all features =", len(self.wid)
+        CP.wid.setdefault(feat, len(CP.wid))
+    print "Total no. of all features =", len(CP.wid)
 
     if 0:
         # no expansion
-        train_data = np.array([self.get_feat_vect(line) for line in open(train_fname)])     
-        test_data = np.array([self.get_feat_vect(line) for line in open(test_fname)])     
+        train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
+        test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
 
         X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
         X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
@@ -86,7 +86,7 @@ def evaluate(self,bench,k):
 def non_expansion(CP, res_file, dataset):
     print dataset
     res_file.write("%s, " % dataset)
-    l2, train_acc, test_acc = evaluate("../data/%s" % dataset, 0)
+    l2, train_acc, test_acc = evaluate(CP,"../data/%s" % dataset, 0)
     res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
