@@ -11,7 +11,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
-import expand as CP
+import expand 
 
 
 def get_true_instances():
@@ -61,6 +61,7 @@ def main():
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
+        CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
         # batch_process(CP, res_file, dataset)
         #non_expansion(CP, res_file, dataset)
