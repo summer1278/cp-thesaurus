@@ -45,8 +45,8 @@ def train_with_CV(X_train, y_train, X_test, y_test):
     clf = linear_model.LogisticRegression(penalty='l2', C=best_theta)
     clf.fit(X_train, y_train)
     print "classifier learnt."
-    print np.sign(np.multiply(clf.predict(X_train),y_test))
-    print find_indices(np.sign(np.multiply(clf.predict(X_train),y_test)),1)
+    print np.sign(np.multiply(clf.predict(X_test),y_test))
+    print find_indices(np.sign(np.multiply(clf.predict(X_test),y_test)),1)
     pass
 
 # short text classification
