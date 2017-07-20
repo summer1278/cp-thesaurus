@@ -64,21 +64,21 @@ def evaluate(CP,bench,k):
         CP.wid.setdefault(feat, len(CP.wid))
     print "Total no. of all features =", len(CP.wid)
 
-    if 0:
-        # no expansion
-        train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
-        test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
 
-        X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
-        X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
-       
-        # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
-        best_theta, train_acc, test_acc = train_with_CV(X_train, y_train, X_test, y_test)
-        
-        print "\n ---- NO Expansion ----"
-        print "Train accuracy =", train_acc
-        print "Test accuracy =", test_acc
-        print "Best theta =", best_theta  
+    # no expansion
+    train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
+    test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
+
+    X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+    X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+   
+    # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
+    best_theta, train_acc, test_acc = train_with_CV(X_train, y_train, X_test, y_test)
+    
+    print "\n ---- NO Expansion ----"
+    print "Train accuracy =", train_acc
+    print "Test accuracy =", test_acc
+    print "Best theta =", best_theta  
     pass
 
 
