@@ -11,7 +11,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
-import expand.CP_EXPANDER as CP
+import expand as CP
 
 
 def get_true_instances():
