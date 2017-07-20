@@ -338,8 +338,8 @@ def main():
     res_file = open("../work/%s-batchres.csv" % dict_name, 'w')
     res_file.write("dataset, k, l2, train_acc, test_acc\n")
 
-    #datasets = ["D-E"]
-    datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
+    datasets = ["TR"]
+    # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
