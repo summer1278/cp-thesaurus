@@ -93,7 +93,7 @@ def evaluate(CP,bench,k,res_file):
 
     for idx,line in enumerate(test_data):
         if idx in output_indices:
-            res_file.write("%s\N" % ','.join(line.strip.split()))
+            res_file.write("%s\N" % ','.join(line.strip()))
     pass
 
 def batch_expansion(CP, res_file, dataset):
