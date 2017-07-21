@@ -85,14 +85,15 @@ def evaluate(CP,bench,k,res_file):
 
     wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
     print "\n ---- With Expansion ----"
-    print "Test corrects =", len(wrong_indices)
+    print "Test incorrects =", len(wrong_indices)
 
     output_indices=set(correct_indices)&set(wrong_indices)
-    test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)]) 
+    print "\nintersection of both = ", len(output_indices)
+    test_data = [line for line in open(test_fname)] 
 
-    for idx,feat in enumerate(test_data):
+    for idx,line in enumerate(test_data):
         if idx in output_indices:
-            res_file.write("%s, " % feat)
+            res_file.write("%s\N" % ','.join(line.strip.split()))
     pass
 
 def batch_expansion(CP, res_file, dataset):
