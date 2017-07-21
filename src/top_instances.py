@@ -16,10 +16,10 @@ from sklearn.preprocessing import StandardScaler
 import expand 
 
 
-def get_indices(predict,target,value):
+def get_indices(predict, target, value):
     return find_indices(np.sign(np.multiply(predict,target)),value)
 
-def find_indices(my_list,value):
+def find_indices(my_list, value):
     indices = [i for i, x in enumerate(my_list) if x == value]
     return indices
 
@@ -96,6 +96,91 @@ def evaluate(CP,bench,k,res_file):
             res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
     pass
 
+def evaluate_projection(CP,bench,k,res_file):
+    train_fname = "%s/train" % bench
+    test_fname = "%s/test" % bench
+    train_feats = CP.get_feature_set(train_fname)
+    print "k = %d" % k
+    print "Total no. of train features =", len(train_feats)
+    test_feats = CP.get_feature_set(test_fname)
+    print "Total no. of test features =", len(test_feats)
+    for feat in train_feats:
+        CP.wid.setdefault(feat, len(CP.wid))
+    for feat in test_feats:
+        CP.wid.setdefault(feat, len(CP.wid))
+    print "Total no. of all features =", len(CP.wid)
+
+
+    # no expansion
+    train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
+    test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
+
+    X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+    X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+   
+    # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
+    correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
+
+    print "\n ---- NO Expansion ----"
+    print "Test corrects =", len(correct_indices)
+    # expansion for projected method
+    # expanded by cores
+    train_data = np.array([self.get_feat_vect(line) for line in open(train_fname)])     
+    test_data = np.array([self.get_feat_vect(line) for line in open(test_fname)])     
+
+    X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+    X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+
+    # Build a matrix between cores and peris.
+    D = len(self.D)
+    CP_mat = np.zeros((D, len(self.wid)), dtype=np.float)
+    core_list = list(self.D.keys())
+    core_list.sort()
+
+    print "Building CP_matrix...",
+    for (i, core_id) in enumerate(core_list):
+        peris = self.D[core_id]["peris"]
+        coreness = self.D[core_id]["coreness"]
+        peri_val_total = sum([x[1] for x in peris])
+        for peri in peris:
+            CP_mat[i,peri[0]] = peri[1] / peri_val_total
+    print "Done."
+
+    # Expand by projecting onto cores.        
+    print "Expanding train data...",
+    csr_CP_mat = csr_matrix(CP_mat.T)
+    train_proj = csr_matrix(X_train).dot(csr_CP_mat).todense()
+    SP = StandardScaler()
+    train_proj = SP.fit_transform(train_proj)
+    X_train = np.concatenate((X_train, train_proj), axis=1)
+    #X_train = np.concatenate((X_train, X_train.dot(CP_mat.T)), axis=1)
+    print "Done."
+
+    print "Expanding test data...",
+    test_proj = csr_matrix(X_test).dot(csr_CP_mat).todense()
+    test_proj = SP.transform(test_proj)
+    X_test = np.concatenate((X_test, test_proj), axis=1)
+    #X_test = np.concatenate((X_test, X_test.dot(CP_mat.T)), axis=1)
+    print "Done."
+    
+    print "Cross-validation..."
+    wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
+
+    print "\n ---- With Expansion ----"
+    print "Test incorrects =", len(wrong_indices)
+
+    output_indices=set(correct_indices)&set(wrong_indices)
+    print "\nintersection of both = ", len(output_indices)
+    test_data = [line for line in open(test_fname)] 
+
+    for idx,line in enumerate(test_data):
+        if idx in output_indices:
+            res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+
+
+
+    pass
+
 def batch_expansion(CP, res_file, dataset):
     print dataset
     # res_file.write("%s, " % dataset)
@@ -108,7 +193,6 @@ def main():
     # dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
-    res_file = open("../work/%s-test" % dict_name, 'w')
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
 
     datasets = ["TR"]
@@ -116,6 +200,7 @@ def main():
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
+        res_file = open("../work/%s-test" % dataset, 'w')
         # batch_process(CP, res_file, dataset)
         batch_expansion(CP, res_file, dataset)
     res_file.close()
