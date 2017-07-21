@@ -70,7 +70,7 @@ def evaluate(CP,bench,k,res_file):
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
-    # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
+    # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
     correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
 
     print "\n ---- NO Expansion ----"
@@ -118,29 +118,29 @@ def evaluate_projection(CP,bench,k,res_file):
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
-    # best_theta, train_acc, test_acc = self.train_with_CV(X_train, y_train, X_test, y_test)
+    # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
     correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
 
     print "\n ---- NO Expansion ----"
     print "Test corrects =", len(correct_indices)
     # expansion for projected method
     # expanded by cores
-    train_data = np.array([self.get_feat_vect(line) for line in open(train_fname)])     
-    test_data = np.array([self.get_feat_vect(line) for line in open(test_fname)])     
+    train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
+    test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
 
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
 
     # Build a matrix between cores and peris.
-    D = len(self.D)
-    CP_mat = np.zeros((D, len(self.wid)), dtype=np.float)
-    core_list = list(self.D.keys())
+    D = len(CP.D)
+    CP_mat = np.zeros((D, len(CP.wid)), dtype=np.float)
+    core_list = list(CP.D.keys())
     core_list.sort()
 
     print "Building CP_matrix...",
     for (i, core_id) in enumerate(core_list):
-        peris = self.D[core_id]["peris"]
-        coreness = self.D[core_id]["coreness"]
+        peris = CP.D[core_id]["peris"]
+        coreness = CP.D[core_id]["coreness"]
         peri_val_total = sum([x[1] for x in peris])
         for peri in peris:
             CP_mat[i,peri[0]] = peri[1] / peri_val_total
