@@ -184,7 +184,8 @@ def batch_expansion(CP, res_file, dataset):
     evaluate(CP,"../data/%s" % dataset, 100, res_file)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
-def batch_expansion(CP, res_file, dataset):
+
+def batch_projection(CP, res_file, dataset):
     print dataset
     # res_file.write("%s, " % dataset)
     evaluate_projection(CP,"../data/%s" % dataset, 100, res_file)
