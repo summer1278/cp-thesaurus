@@ -89,7 +89,7 @@ def evaluate(CP,bench,k,res_file):
 
     output_indices=set(correct_indices)&set(wrong_indices)
     print "\nintersection of both = ", len(output_indices)
-    test_data = [line for line in open(test_fname)] 
+    # test_data = [line for line in open(test_fname)] 
 
     for idx,line in enumerate(test_data):
         if idx in output_indices:
@@ -197,12 +197,12 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-
+    k = 100
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
-        CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
+        CP.load_CP_Dictionary("../data/%s" % dict_name, k)
         res_file = open("../work/%s-%s-test" % (dataset,dict_name), 'w')
         batch_expansion(CP, res_file, dataset,k)
         # batch_projection(CP, res_file, dataset,k)
