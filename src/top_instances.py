@@ -178,17 +178,17 @@ def evaluate_projection(CP,bench,k,res_file):
             res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
     pass
 
-def batch_expansion(CP, res_file, dataset):
+def batch_expansion(CP, res_file, dataset,k):
     print dataset
     # res_file.write("%s, " % dataset)
-    evaluate(CP,"../data/%s" % dataset, 100, res_file)
+    evaluate(CP,"../data/%s" % dataset, k, res_file)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
-def batch_projection(CP, res_file, dataset):
+def batch_projection(CP, res_file, dataset,k):
     print dataset
     # res_file.write("%s, " % dataset)
-    evaluate_projection(CP,"../data/%s" % dataset, 100, res_file)
+    evaluate_projection(CP,"../data/%s" % dataset, k, res_file)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
@@ -204,8 +204,8 @@ def main():
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
         res_file = open("../work/%s-%s-test" % (dataset,dict_name), 'w')
-        batch_expansion(CP, res_file, dataset)
-        # batch_projection(CP, res_file, dataset)
+        batch_expansion(CP, res_file, dataset,k)
+        # batch_projection(CP, res_file, dataset,k)
     res_file.close()
 
 if __name__ == '__main__':
