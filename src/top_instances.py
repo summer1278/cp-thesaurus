@@ -90,10 +90,12 @@ def evaluate(CP,bench,k,res_file):
     output_indices=set(correct_indices)&set(wrong_indices)
     print "\nintersection of both = ", len(output_indices)
     # test_data = [line for line in open(test_fname)] 
+    test_data = [CP.expand_weighted(line, k) for line in open(test_fname)]
 
     for idx,line in enumerate(test_data):
         if idx in output_indices:
-            res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+            # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+            res_file.write("%s\n" % line)
     pass
 
 def evaluate_projection(CP,bench,k,res_file):
