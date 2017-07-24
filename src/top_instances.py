@@ -90,7 +90,7 @@ def evaluate(CP,bench,k,res_file):
     output_indices=set(correct_indices)&set(wrong_indices)
     print "\nintersection of both = ", len(output_indices)
     # test_data = [line for line in open(test_fname)] 
-    test_data = [CP.expand_weighted(line, k) for line in open(test_fname)]
+    test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
     for idx,line in enumerate(test_data):
         if idx in output_indices:
