@@ -95,7 +95,7 @@ def evaluate(CP,bench,k,res_file):
     for idx,line in enumerate(test_data):
         if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-            res_file.write("%s %s\n" % line[1:], line[0])
+            res_file.write("%s %s\n" % (line[1:], line[0]))
     pass
 
 def evaluate_projection(CP,bench,k,res_file):
