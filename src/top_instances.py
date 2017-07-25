@@ -224,10 +224,10 @@ def main():
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        res_file = open("../work/%s-%s-proposed-%d%" % (dataset,dict_name,k), 'w')
+        res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
         batch_expansion(CP, res_file, dataset,k)
         res_file.close()
-        res_file = open("../work/%s-%s-projection-%d%" % (dataset,dict_name,k), 'w')
+        res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
         batch_projection(CP, res_file, dataset,k)
         res_file.close()
     
