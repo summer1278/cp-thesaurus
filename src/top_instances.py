@@ -218,18 +218,18 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k = 10
+    k = 100
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        # res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
-        # batch_expansion(CP, res_file, dataset,k)
-        # res_file.close()
-        res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
-        batch_projection(CP, res_file, dataset,k)
+        res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
+        batch_expansion(CP, res_file, dataset,k)
         res_file.close()
+        # res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
+        # batch_projection(CP, res_file, dataset,k)
+        # res_file.close()
     
 
 if __name__ == '__main__':
