@@ -43,19 +43,19 @@ def append_peri_value(CP_file,sentences,output_indices,k,res_file):
 
 def train_with_CV(X_train, y_train, X_test, y_test,value):
     # find the best classifier
-    print "cross validation.."
-    theta_vals = [1e-3, 1e-2, 1e-1, 1e-0, 1e+1, 1e+2, 1e+3]
-    cv_res = []
-    for theta  in theta_vals:
-        clf = linear_model.LogisticRegression(penalty='l2', C=theta, solver='sag')
-        scores = cross_val_score(clf, X_train, y_train, cv=5)
-        #print scores
-        cv_res.append(np.mean(scores))
+    # print "cross validation.."
+    # theta_vals = [1e-3, 1e-2, 1e-1, 1e-0, 1e+1, 1e+2, 1e+3]
+    # cv_res = []
+    # for theta  in theta_vals:
+    #     clf = linear_model.LogisticRegression(penalty='l2', C=theta, solver='sag')
+    #     scores = cross_val_score(clf, X_train, y_train, cv=5)
+    #     #print scores
+    #     cv_res.append(np.mean(scores))
 
-    # print cv_res
-    best_theta = theta_vals[np.argmax(cv_res)]
-    print best_theta
-    # best_theta = 1.0
+    # # print cv_res
+    # best_theta = theta_vals[np.argmax(cv_res)]
+    # print best_theta
+    best_theta = 1.0
 
     clf = linear_model.LogisticRegression(penalty='l2', C=best_theta)
     clf.fit(X_train, y_train)
