@@ -112,7 +112,7 @@ def evaluate(CP,bench,k,res_file):
     test_data = [line for line in open(test_fname)] 
     # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
-    append_peri_value(CP,test_data,output_indices,k)
+    append_peri_value(CP,test_data,output_indices,k,res_file)
     # for idx,line in enumerate(test_data):
     #     if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
