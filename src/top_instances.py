@@ -23,6 +23,33 @@ def find_indices(my_list, value):
     indices = [i for i, x in enumerate(my_list) if x == value]
     return indices
 
+def append_peri_value(CP_file,sentences,output_indices,k):
+    feats = []
+    for idx,line in enumerate(sentences):
+        if idx in output_indices:
+            feats.append([feat for feat in line])
+    feats = [set(feats)]
+
+    # Build a matrix between cores and peris.
+    D = len(CP_file.D)
+    CP_mat = np.zeros((D, len(CP_file.wid)), dtype=np.float)
+    core_list = list(CP_file.D.keys())
+    core_list.sort()
+    core_list = [core for core in core_list if core in feats]
+
+    # print "Building CP_matrix...",
+    for (i, core_id) in enumerate(core_list):
+        peris = CP_file.D[core_id]["peris"]
+        coreness = CP_file.D[core_id]["coreness"]
+        peri_val_total = sum([x[1] for x in peris])
+        for peri in peris:
+            CP_mat[i,peri[0]] = peri[1] / peri_val_total
+    print "Done."
+    print CP_mat
+    
+
+    pass
+
 def train_with_CV(X_train, y_train, X_test, y_test,value):
     # find the best classifier
     # print "cross validation.."
@@ -89,13 +116,14 @@ def evaluate(CP,bench,k,res_file):
 
     output_indices=set(correct_indices)&set(wrong_indices)
     print "\nintersection of both = ", len(output_indices)
-    # test_data = [line for line in open(test_fname)] 
-    test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
+    test_data = [line for line in open(test_fname)] 
+    # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
-    for idx,line in enumerate(test_data):
-        if idx in output_indices:
+    append_peri_value(CP,test_data,output_indices,k)
+    # for idx,line in enumerate(test_data):
+    #     if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-            res_file.write("%s %s\n" % (line[1:], line[0]))
+            # res_file.write("%s %s\n" % (line[1:], line[0]))
     pass
 
 def evaluate_projection(CP,bench,k,res_file):
