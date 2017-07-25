@@ -117,6 +117,61 @@ def evaluate(CP,bench,k,res_file):
             # res_file.write("%s %s\n" % (line[1:], line[0]))
     pass
 
+# just expand train?
+def evaluate_train(CP,bench,k,res_file):
+    train_fname = "%s/train" % bench
+    test_fname = "%s/test" % bench
+    train_feats = CP.get_feature_set(train_fname)
+    print "k = %d" % k
+    print "Total no. of train features =", len(train_feats)
+    test_feats = CP.get_feature_set(test_fname)
+    print "Total no. of test features =", len(test_feats)
+    for feat in train_feats:
+        CP.wid.setdefault(feat, len(CP.wid))
+    for feat in test_feats:
+        CP.wid.setdefault(feat, len(CP.wid))
+    print "Total no. of all features =", len(CP.wid)
+
+
+    # no expansion
+    train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
+    test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])     
+
+    X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+    X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+   
+    # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
+    correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
+
+    print "\n ---- NO Expansion ----"
+    print "Test corrects =", len(correct_indices)
+
+    # expansion for proposed methods
+    train_data = np.array([CP.expand_weighted(line, k) for line in open(train_fname)])     
+    # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])    
+    test_data = np.array([CP.get_feat_vect(line) for line in open(test_fname)])
+
+    X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
+    X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
+
+    wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
+    print "\n ---- With Expansion ----"
+    print "Test incorrects =", len(wrong_indices)
+
+    output_indices=set(correct_indices)&set(wrong_indices)
+    print "\nintersection of both = ", len(output_indices)
+    test_data = [line for line in open(test_fname)] 
+    # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
+
+    append_peri_value(CP,test_data,output_indices,k,res_file)
+    # for idx,line in enumerate(test_data):
+    #     if idx in output_indices:
+            # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+            # res_file.write("%s %s\n" % (line[1:], line[0]))
+    pass
+
+
+
 def evaluate_projection(CP,bench,k,res_file):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
@@ -218,19 +273,19 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k = 100
+    k=500
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        # res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
-        # batch_expansion(CP, res_file, dataset,k)
-        # res_file.close()
+        res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
+        batch_expansion(CP, res_file, dataset,k)
+        res_file.close()
         res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
         batch_projection(CP, res_file, dataset,k)
         res_file.close()
-    
+
 
 if __name__ == '__main__':
     main()
