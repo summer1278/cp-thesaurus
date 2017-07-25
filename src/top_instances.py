@@ -27,7 +27,7 @@ def append_peri_value(CP_file,sentences,output_indices,k):
     feats = []
     for idx,line in enumerate(sentences):
         if idx in output_indices:
-            feats+=[feat for feat in line]
+            feats+=[word.replace(':1','') for word in line.strip().split(' ')[1:]]
     print feats
 
     # Build a matrix between cores and peris.
