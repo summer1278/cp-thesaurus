@@ -85,7 +85,7 @@ class CP_EXPANDER():
                     self.D[self.wid[core]]["peris"].append((self.wid[peri],val))
         print "Total core words =", len(self.D)
         print "Vocabulary size  =", len(self.wid)
-        print self.wid
+        # print self.wid
         pass
 
     def get_feature_set(self, fname):

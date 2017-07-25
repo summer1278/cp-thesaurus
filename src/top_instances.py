@@ -23,6 +23,7 @@ def find_indices(my_list, value):
     indices = [i for i, x in enumerate(my_list) if x == value]
     return indices
 
+# print term instances
 def append_peri_value(CP_file,sentences,output_indices,k,res_file):
     feats = []
     for idx,line in enumerate(sentences):
@@ -34,30 +35,29 @@ def append_peri_value(CP_file,sentences,output_indices,k,res_file):
         core_id = CP_file.wid[feat]
         if core_id in CP_file.D:
             res_file.write('%s %f '%(feat,CP_file.D[core_id]["coreness"]))
-            print feat
+            # print feat
             for (peri_id, peri_val) in CP_file.D[core_id]["peris"][:k]:
-                print CP_file.wid.keys()[CP_file.wid.values().index(peri_id)]
-                res_file.write("(%s,%f) "%(CP_file.wid.keys()[CP_file.wid.values().index(peri_id)],peri_val))
+                # print CP_file.wid.keys()[CP_file.wid.values().index(peri_id)]
+                res_file.write("%s,%f "%(CP_file.wid.keys()[CP_file.wid.values().index(peri_id)],peri_val))
             res_file.write("\n")
     res_file.close()
-
     pass
 
 def train_with_CV(X_train, y_train, X_test, y_test,value):
     # find the best classifier
-    # print "cross validation.."
-    # theta_vals = [1e-3, 1e-2, 1e-1, 1e-0, 1e+1, 1e+2, 1e+3]
-    # cv_res = []
-    # for theta  in theta_vals:
-    #     clf = linear_model.LogisticRegression(penalty='l2', C=theta, solver='sag')
-    #     scores = cross_val_score(clf, X_train, y_train, cv=5)
-    #     #print scores
-    #     cv_res.append(np.mean(scores))
+    print "cross validation.."
+    theta_vals = [1e-3, 1e-2, 1e-1, 1e-0, 1e+1, 1e+2, 1e+3]
+    cv_res = []
+    for theta  in theta_vals:
+        clf = linear_model.LogisticRegression(penalty='l2', C=theta, solver='sag')
+        scores = cross_val_score(clf, X_train, y_train, cv=5)
+        #print scores
+        cv_res.append(np.mean(scores))
 
-    # # print cv_res
-    # best_theta = theta_vals[np.argmax(cv_res)]
-    # print best_theta
-    best_theta = 1.0
+    # print cv_res
+    best_theta = theta_vals[np.argmax(cv_res)]
+    print best_theta
+    # best_theta = 1.0
 
     clf = linear_model.LogisticRegression(penalty='l2', C=best_theta)
     clf.fit(X_train, y_train)
@@ -220,16 +220,19 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k = 100
+    k = 10
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        res_file = open("../work/%s-%s-test" % (dataset,dict_name), 'w')
+        res_file = open("../work/%s-%s-proposed-%d%" % (dataset,dict_name,k), 'w')
         batch_expansion(CP, res_file, dataset,k)
-        # batch_projection(CP, res_file, dataset,k)
-    res_file.close()
+        res_file.close()
+        res_file = open("../work/%s-%s-projection-%d%" % (dataset,dict_name,k), 'w')
+        batch_projection(CP, res_file, dataset,k)
+        res_file.close()
+    
 
 if __name__ == '__main__':
     main()
