@@ -184,7 +184,6 @@ def evaluate_projection(CP,bench,k,res_file):
     #X_test = np.concatenate((X_test, X_test.dot(CP_mat.T)), axis=1)
     print "Done."
     
-    print "Cross-validation..."
     wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
 
     print "\n ---- With Expansion ----"
@@ -218,7 +217,7 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k = 10
+    k = 100
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
