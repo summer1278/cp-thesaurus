@@ -35,9 +35,7 @@ def append_peri_value(CP_file,sentences,output_indices,k,res_file):
         core_id = CP_file.wid[feat]
         if core_id in CP_file.D:
             res_file.write('%s %f '%(feat,CP_file.D[core_id]["coreness"]))
-            # print feat
             for (peri_id, peri_val) in CP_file.D[core_id]["peris"][:k]:
-                # print CP_file.wid.keys()[CP_file.wid.values().index(peri_id)]
                 res_file.write("%s,%f "%(CP_file.wid.keys()[CP_file.wid.values().index(peri_id)],peri_val))
             res_file.write("\n")
     res_file.close()
