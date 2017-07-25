@@ -23,31 +23,23 @@ def find_indices(my_list, value):
     indices = [i for i, x in enumerate(my_list) if x == value]
     return indices
 
-def append_peri_value(CP_file,sentences,output_indices,k):
+def append_peri_value(CP_file,sentences,output_indices,k,res_file):
     feats = []
     for idx,line in enumerate(sentences):
         if idx in output_indices:
             feats+=[word.replace(':1','') for word in line.strip().split(' ')[1:]]
     feats=set(feats)
 
-    # Build a matrix between cores and peris.
-    D = len(CP_file.D)
-    CP_mat = np.zeros((D, len(CP_file.wid)), dtype=np.float)
-    core_list = list(CP_file.D.keys())
-    core_list.sort()
-    core_list = [core for core in core_list if core in feats]
-    print core_list
-
-    # print "Building CP_matrix...",
-    for (i, core_id) in enumerate(core_list):
-        peris = CP_file.D[core_id]["peris"]
-        coreness = CP_file.D[core_id]["coreness"]
-        peri_val_total = sum([x[1] for x in peris])
-        for peri in peris:
-            CP_mat[i,peri[0]] = peri[1] / peri_val_total
-    print "Done."
-    print CP_mat
-    
+    for feat in feats:
+        core_id = CP_file.wid[feat]
+        
+        if core_id in CP_file.D:
+            res_file.write('%s '%feat)
+            print feat,CP_file.D[core_id]["peris"][:k]
+            for (peri_id, peri_val) in CP_file.D[core_id]["peris"][:k]:
+                res_file.write("(%s,%f) "%(peri_id,peri_val))
+            res_file.write("\n")
+    res_file.close()
 
     pass
 
