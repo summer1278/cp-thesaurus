@@ -193,9 +193,10 @@ def evaluate_projection(CP,bench,k,res_file):
     print "\nintersection of both = ", len(output_indices)
     test_data = [line for line in open(test_fname)] 
 
-    for idx,line in enumerate(test_data):
-        if idx in output_indices:
-            res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    append_peri_value(CP,test_data,output_indices,k,res_file)
+    # for idx,line in enumerate(test_data):
+    #     if idx in output_indices:
+    #         res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
     pass
 
 def batch_expansion(CP, res_file, dataset,k):
@@ -217,15 +218,15 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k = 100
+    k = 10
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
-        batch_expansion(CP, res_file, dataset,k)
-        res_file.close()
+        # res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
+        # batch_expansion(CP, res_file, dataset,k)
+        # res_file.close()
         res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
         batch_projection(CP, res_file, dataset,k)
         res_file.close()
