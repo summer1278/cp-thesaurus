@@ -62,8 +62,8 @@ def train_with_CV(X_train, y_train, X_test, y_test,value):
     print "classifier learnt."
     # print np.sign(np.multiply(clf.predict(X_test),y_test))
     indices = get_indices(clf.predict(X_test),y_test,value)
-
-    return indices
+    test_acc = 0.5 + 0.5 * np.mean(np.sign(clf.predict(X_test) * y_test))
+    return indices,test_acc
 
 def train_without_CV(X_train, y_train, X_test, y_test,value,best_theta):
     # find the best classifier
@@ -86,8 +86,8 @@ def train_without_CV(X_train, y_train, X_test, y_test,value,best_theta):
     print "classifier learnt."
     # print np.sign(np.multiply(clf.predict(X_test),y_test))
     indices = get_indices(clf.predict(X_test),y_test,value)
-
-    return indices
+    test_acc = 0.5 + 0.5 * np.mean(np.sign(clf.predict(X_test) * y_test))
+    return indices,test_acc
 
 
 # short text classification
@@ -114,8 +114,8 @@ def evaluate(CP,bench,k,res_file,fname):
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
     # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
-    # correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
-    correct_indices = train_without_CV(X_train, y_train, X_test, y_test,1,1.0)
+    correct_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,1)
+    # correct_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,1,1.0)
     print "\n ---- NO Expansion ----"
     print "Test corrects =", len(correct_indices)
 
@@ -126,8 +126,8 @@ def evaluate(CP,bench,k,res_file,fname):
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
 
-    # wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
-    wrong_indices = train_without_CV(X_train, y_train, X_test, y_test,-1,1.0)
+    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,-1)
+    # wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,-1,1.0)
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
 
@@ -136,13 +136,13 @@ def evaluate(CP,bench,k,res_file,fname):
     test_data = [line for line in open(test_fname)] 
     # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
-    # append_peri_value(CP,test_data,output_indices,k,res_file)
+    append_peri_value(CP,test_data,output_indices,k,res_file)
     write_original_sentences(test_data,output_indices,fname)
     # for idx,line in enumerate(test_data):
     #     if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
             # res_file.write("%s %s\n" % (line[1:], line[0]))
-    pass
+    return test_acc
 
 # just expand train?
 def evaluate_train(CP,bench,k,res_file,fname):
@@ -293,10 +293,10 @@ def write_original_sentences(test_data,output_indices,fname):
 
 def batch_expansion(CP, res_file, dataset,k,fname):
     print dataset
-    # res_file.write("%s, " % dataset)
-    evaluate(CP,"../data/%s" % dataset, k, res_file,fname)
+    
+    test_acc = evaluate(CP,"../data/%s" % dataset, k, res_file,fname)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
-    pass
+    return test_acc
 
 def batch_projection(CP, res_file, dataset,k,fname):
     print dataset
@@ -314,19 +314,24 @@ def main():
     kvals = [10,100,500,1000]
     # datasets = ["TR"]
     dataset = 'TR'
+
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
+    
+    acc_file = open('../work/%s--%s-projected-acc'%(dict_name,dataset),'w')
     # for dataset in datasets:
     for k in kvals:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
         fname = "../work/%s-%s-proposed-%d" % (dataset,dict_name,k)
         res_file = open("%s-words"%fname, 'w')
-        batch_expansion(CP, res_file, dataset, k, fname)
+        test_acc = batch_expansion(CP, res_file, dataset, k, fname)
         res_file.close()
+        acc_file.write('%f,%f'%(k, test_acc))
         # fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
         # res_file = open("%s-words"%fname, 'w')
         # batch_projection(CP, res_file, dataset, k, fname)
         # res_file.close()
+    acc_file.close()
 
 
 if __name__ == '__main__':
