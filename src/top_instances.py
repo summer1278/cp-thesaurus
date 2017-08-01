@@ -65,6 +65,31 @@ def train_with_CV(X_train, y_train, X_test, y_test,value):
 
     return indices
 
+def train_without_CV(X_train, y_train, X_test, y_test,value,best_theta):
+    # find the best classifier
+    # print "cross validation.."
+    # theta_vals = [1e-3, 1e-2, 1e-1, 1e-0, 1e+1, 1e+2, 1e+3]
+    # cv_res = []
+    # for theta  in theta_vals:
+    #     clf = linear_model.LogisticRegression(penalty='l2', C=theta, solver='sag')
+    #     scores = cross_val_score(clf, X_train, y_train, cv=5)
+    #     #print scores
+    #     cv_res.append(np.mean(scores))
+
+    # # print cv_res
+    # best_theta = theta_vals[np.argmax(cv_res)]
+    print best_theta
+    # best_theta = 1.0
+
+    clf = linear_model.LogisticRegression(penalty='l2', C=best_theta)
+    clf.fit(X_train, y_train)
+    print "classifier learnt."
+    # print np.sign(np.multiply(clf.predict(X_test),y_test))
+    indices = get_indices(clf.predict(X_test),y_test,value)
+
+    return indices
+
+
 # short text classification
 def evaluate(CP,bench,k,res_file):
     train_fname = "%s/train" % bench
@@ -89,8 +114,8 @@ def evaluate(CP,bench,k,res_file):
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
     # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
-    correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
-
+    # correct_indices = train_with_CV(X_train, y_train, X_test, y_test,1)
+    correct_indices = train_without_CV(X_train, y_train, X_test, y_test,1,1)
     print "\n ---- NO Expansion ----"
     print "Test corrects =", len(correct_indices)
 
@@ -101,7 +126,8 @@ def evaluate(CP,bench,k,res_file):
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
 
-    wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
+    # wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
+    wrong_indices = train_without_CV(X_train, y_train, X_test, y_test,-1)
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
 
@@ -110,7 +136,8 @@ def evaluate(CP,bench,k,res_file):
     test_data = [line for line in open(test_fname)] 
     # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
-    append_peri_value(CP,test_data,output_indices,k,res_file)
+    # append_peri_value(CP,test_data,output_indices,k,res_file)
+    write_original_sentences(test_data,output_indices,fname)
     # for idx,line in enumerate(test_data):
     #     if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
@@ -118,7 +145,7 @@ def evaluate(CP,bench,k,res_file):
     pass
 
 # just expand train?
-def evaluate_train(CP,bench,k,res_file):
+def evaluate_train(CP,bench,k,res_file,fname):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
     train_feats = CP.get_feature_set(train_fname)
@@ -163,7 +190,8 @@ def evaluate_train(CP,bench,k,res_file):
     test_data = [line for line in open(test_fname)] 
     # test_data = np.array([CP.expand_weighted(line, k) for line in open(test_fname)])
 
-    append_peri_value(CP,test_data,output_indices,k,res_file)
+    # append_peri_value(CP,test_data,output_indices,k,res_file)
+    write_original_sentences(test_data,output_indices,fname)
     # for idx,line in enumerate(test_data):
     #     if idx in output_indices:
             # res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
@@ -172,7 +200,7 @@ def evaluate_train(CP,bench,k,res_file):
 
 
 
-def evaluate_projection(CP,bench,k,res_file):
+def evaluate_projection(CP,bench,k,res_file,fname):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
     train_feats = CP.get_feature_set(train_fname)
@@ -248,10 +276,19 @@ def evaluate_projection(CP,bench,k,res_file):
     print "\nintersection of both = ", len(output_indices)
     test_data = [line for line in open(test_fname)] 
 
-    append_peri_value(CP,test_data,output_indices,k,res_file)
+    # append_peri_value(CP,test_data,output_indices,k,res_file)
+    write_original_sentences(test_data,output_indices,fname)
     # for idx,line in enumerate(test_data):
     #     if idx in output_indices:
     #         res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    pass
+
+def write_original_sentences(test_data,output_indices,fname):
+    res_file = open("%s-sentences" % (fname), 'w')
+    for idx,line in enumerate(test_data):
+        if idx in output_indices:
+            res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    res_file.close()            
     pass
 
 def batch_expansion(CP, res_file, dataset,k):
@@ -273,18 +310,23 @@ def main():
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
-    k=1000
-    datasets = ["TR"]
+    # k=1000
+    kvals = [10,100,500,1000]
+    # datasets = ["TR"]
+    dataset = 'TR'
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
-    for dataset in datasets:
+    # for dataset in datasets:
+    for k in kvals:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        res_file = open("../work/%s-%s-proposed-%d" % (dataset,dict_name,k), 'w')
-        batch_expansion(CP, res_file, dataset,k)
+        fname = "../work/%s-%s-proposed-%d" % (dataset,dict_name,k)
+        res_file = open(fname, 'w')
+        batch_expansion(CP, res_file, dataset, k, fname)
         res_file.close()
-        res_file = open("../work/%s-%s-projection-%d" % (dataset,dict_name,k), 'w')
-        batch_projection(CP, res_file, dataset,k)
-        res_file.close()
+        # fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
+        # res_file = open(fname, 'w')
+        # batch_projection(CP, res_file, dataset, k, fname)
+        # res_file.close()
 
 
 if __name__ == '__main__':
