@@ -320,11 +320,11 @@ def main():
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
         fname = "../work/%s-%s-proposed-%d" % (dataset,dict_name,k)
-        res_file = open(fname, 'w')
+        res_file = open("%s-words"%fname, 'w')
         batch_expansion(CP, res_file, dataset, k, fname)
         res_file.close()
         # fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
-        # res_file = open(fname, 'w')
+        # res_file = open("%s-words"%fname, 'w')
         # batch_projection(CP, res_file, dataset, k, fname)
         # res_file.close()
 
