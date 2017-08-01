@@ -127,7 +127,7 @@ def evaluate(CP,bench,k,res_file,fname):
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
 
     # wrong_indices = train_with_CV(X_train, y_train, X_test, y_test,-1)
-    wrong_indices = train_without_CV(X_train, y_train, X_test, y_test,-1)
+    wrong_indices = train_without_CV(X_train, y_train, X_test, y_test,-1,1)
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
 
