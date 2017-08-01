@@ -268,13 +268,13 @@ def link_sentences_with_words(fname):
     # get a list of all cores have been found in these instances
     core_words = [line.strip().split()[0] for line in wordFile]
     print core_words
-    # for sent in sents:
-    #     combined_file.write('%s'%' '.join([word for word in sent]))
-    #     for word in sent:
-    #         if word in core_words:
-    #             combined_file.write('%s'%' '.join(wordFile[core_words.index(word)].strip().split()[2:]))
-    #     combined_file.write('\n')
-    # combined_file.close()
+    for sent in sents:
+        combined_file.write('%s\n'%' '.join([word for word in sent]))
+        for word in sent:
+            if word in core_words:
+                combined_file.write('%s'%' '.join(wordFile[core_words.index(word)].strip().split()[2:]))
+        combined_file.write('\n')
+    combined_file.close()
     pass
 
 def main():
