@@ -267,6 +267,7 @@ def link_sentences_with_words(fname):
     wordFile = open('%s-words'%fname, 'r')
     # get a list of all cores have been found in these instances
     core_words = [line.strip().split()[0] for line in wordFile]
+    wordFile = open('%s-words'%fname, 'r')
     core_peris = [line.strip().split()[2:] for line in wordFile]
     print core_peris
     # for sent in sents:
