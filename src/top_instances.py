@@ -91,7 +91,7 @@ def train_without_CV(X_train, y_train, X_test, y_test,value,best_theta):
 
 
 # short text classification
-def evaluate(CP,bench,k,res_file):
+def evaluate(CP,bench,k,res_file,fname):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
     train_feats = CP.get_feature_set(train_fname)
