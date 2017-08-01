@@ -313,7 +313,7 @@ def test():
     dict_name = sys.argv[1]
     k = 20
     dataset = 'TR'
-    fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
+    fname = "../work/%s-%s-proposed-%d" % (dataset,dict_name,k)
     link_sentences_with_words(fname)
     pass
 
