@@ -261,13 +261,13 @@ def link_sentences_with_words(fname):
     for line in sentFile:
         sent = line.strip().split(',')
         sents.append(sent)
-    print sents
+    # print sents
     # in wordFile, each line is a word and its peris, 
     # format: word coreness peri1,ppmi1 peri2,ppmi2 ...
     wordFile = open('%s-words'%fname, 'r')
     # get a list of all cores have been found in these instances
-    core_words = [line.strip().split()[0] for word in wordFile]
-    # print core_words
+    core_words = [line.strip().split()[0] for line in wordFile]
+    print core_words
     # for sent in sents:
     #     combined_file.write('%s'%' '.join([word for word in sent]))
     #     for word in sent:
