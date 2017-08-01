@@ -276,7 +276,7 @@ def link_sentences_with_words(fname):
         for word in sent:
             if word in core_words:
                 # combined_file.write('%s'%word)
-                combined_file.write('%s %s'%(word, ' '.join(core_peris[core_words.index(word)])))
+                combined_file.write('%s %s\n'%(word, ' '.join(core_peris[core_words.index(word)])))
         combined_file.write('\n')
     combined_file.close()
     pass
