@@ -311,7 +311,8 @@ def main():
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
     # k=1000
-    kvals = [10,100,500,1000]
+    # kvals = [10,100,500,1000]
+    kvals = [20]
     # datasets = ["TR"]
     dataset = 'TR'
 
