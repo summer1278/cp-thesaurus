@@ -267,6 +267,7 @@ def link_sentences_with_words(fname):
     wordFile = open('%s-words'%fname, 'r')
     # get a list of all cores have been found in these instances
     core_words = [line.strip().split()[0] for word in wordFile]
+    print core_words
     for sent in sents:
         combined_file.write('%s'%' '.join([word for word in sent]))
         for word in sent:
@@ -311,6 +312,7 @@ def main():
 def test():
     dict_name = sys.argv[1]
     k = 20
+    dataset = 'TR'
     fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
     link_sentences_with_words(fname)
     pass
