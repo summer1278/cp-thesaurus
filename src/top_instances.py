@@ -251,6 +251,31 @@ def batch_projection(CP, res_file, dataset,k,fname):
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     return test_acc
 
+# from output original sentences and term features (words), 
+# connect into the format as sentences with words for observation
+def link_sentences_with_words(fname):
+    combined_file = open('%s-combined'%fname,'w')
+    # in sentFile, each line is a sentence, each word is split by ','
+    sentFile = open('%s-sentences'%fname, 'r')
+    sents = []
+    for line in sentFile:
+        sent = line.strip().split(',')
+        sents.append(sent)
+    print sents
+    # in wordFile, each line is a word and its peris, 
+    # format: word coreness peri1,ppmi1 peri2,ppmi2 ...
+    wordFile = open('%s-words'%fname, 'r')
+    # get a list of all cores have been found in these instances
+    core_words = [line.strip().split()[0] for word in wordFile]
+    for sent in sents:
+        combined_file.write('%s'%' '.join([word for word in sent]))
+        for word in sent:
+            if word in core_words:
+                combined_file.write('%s'%' '.join(wordFile[core_words.index(word)].strip().split()[2:]))
+        combined_file.write('\n')
+    combined_file.close()
+    pass
+
 def main():
     # dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
@@ -283,6 +308,13 @@ def main():
         acc_file.write('%f,%f\n'%(k, test_acc))
     acc_file.close()
 
+def test():
+    dict_name = sys.argv[1]
+    k = 20
+    fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
+    link_sentences_with_words(fname)
+    pass
 
 if __name__ == '__main__':
-    main()
+    # main()
+    test()
