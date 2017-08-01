@@ -291,17 +291,17 @@ def write_original_sentences(test_data,output_indices,fname):
     res_file.close()            
     pass
 
-def batch_expansion(CP, res_file, dataset,k):
+def batch_expansion(CP, res_file, dataset,k,fname):
     print dataset
     # res_file.write("%s, " % dataset)
-    evaluate(CP,"../data/%s" % dataset, k, res_file)
+    evaluate(CP,"../data/%s" % dataset, k, res_file,fname)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
-def batch_projection(CP, res_file, dataset,k):
+def batch_projection(CP, res_file, dataset,k,fname):
     print dataset
     # res_file.write("%s, " % dataset)
-    evaluate_projection(CP,"../data/%s" % dataset, k, res_file)
+    evaluate_projection(CP,"../data/%s" % dataset, k, res_file,fname)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     pass
 
