@@ -306,7 +306,7 @@ def main():
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     
     # acc_file = open('../work/%d/%s-%s-projection-acc'%(opt,dict_name,dataset),'w')
-    acc_file = open('../work/%d/%s-%s-proposed-acc'%(dict_name,dataset),'w')
+    acc_file = open('../work/%d/%s-%s-proposed-acc'%(opt,dict_name,dataset),'w')
     # for dataset in datasets:
     for k in kvals:
         CP = expand.CP_EXPANDER()
