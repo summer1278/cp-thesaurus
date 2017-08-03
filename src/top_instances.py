@@ -136,8 +136,8 @@ def evaluate(CP,bench,k,res_file,fname,opt):
     X_train, y_train = train_data[:,1:], train_data[:,0].astype(int)
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
 
-    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
-    # wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,-1,1.0)
+    # wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
+    wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,-1,1.0)
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
 
@@ -327,7 +327,7 @@ def main():
 def test():
     dict_name = sys.argv[1]
     k = 20
-    opt = 2
+    opt = 3
     dataset = 'TR'
     fname = "../work/%d/%s-%s-proposed-%d" % (opt,dataset,dict_name,k)
     link_sentences_with_words(fname)
