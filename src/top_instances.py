@@ -124,8 +124,8 @@ def evaluate(CP,bench,k,res_file,fname,opt):
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
     # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
-    correct_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[0])
-    # correct_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,1,1.0)
+    # correct_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[0])
+    correct_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,1,1.0)
     print "\n ---- NO Expansion ----"
     print "Test corrects =", len(correct_indices)
 
@@ -301,7 +301,7 @@ def main():
     kvals = [20]
     # datasets = ["TR"]
     dataset = 'TR'
-    opt = 2
+    opt = 3
 
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     
