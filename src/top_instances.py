@@ -329,7 +329,7 @@ def main():
         
         fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
         res_file = open("%s-words"%fname, 'w')
-        test_acc=batch_projection(CP, res_file, dataset, k, fname)
+        test_acc=batch_projection(CP, res_file, dataset, k, fname,opt)
         res_file.close()
         print test_acc
         acc_file.write('%f,%f\n'%(k, test_acc))
