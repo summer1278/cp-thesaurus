@@ -156,7 +156,7 @@ def evaluate(CP,bench,k,res_file,fname,opt):
 
 
 
-def evaluate_projection(CP,bench,k,res_file,fname):
+def evaluate_projection(CP,bench,k,res_file,fname,opt):
     train_fname = "%s/train" % bench
     test_fname = "%s/test" % bench
     train_feats = CP.get_feature_set(train_fname)
@@ -169,7 +169,17 @@ def evaluate_projection(CP,bench,k,res_file,fname):
     for feat in test_feats:
         CP.wid.setdefault(feat, len(CP.wid))
     print "Total no. of all features =", len(CP.wid)
-
+    
+    print "Option: ", opt
+    """
+    options for swtich cases
+    1: no expansion: correct | expansion: incorrect
+    2: no expansion: correct | expansion: correct
+    3: no expansion: incorrect | expansion: correct
+    4: no expansion: incorrect | expansion: incorrect
+    """
+    options = {1:[1,-1],2:[1,1],3:[-1,1],4:[-1,-1]}
+    option = options[opt]
 
     # no expansion
     train_data = np.array([CP.get_feat_vect(line) for line in open(train_fname)])     
@@ -179,7 +189,8 @@ def evaluate_projection(CP,bench,k,res_file,fname):
     X_test, y_test = test_data[:,1:], test_data[:,0].astype(int)
    
     # best_theta, train_acc, test_acc = CP.train_with_CV(X_train, y_train, X_test, y_test)
-    correct_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,1)
+    # correct_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,1)
+    correct_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,option[0],1.0)
 
     print "\n ---- NO Expansion ----"
     print "Test corrects =", len(correct_indices)
@@ -223,7 +234,7 @@ def evaluate_projection(CP,bench,k,res_file,fname):
     #X_test = np.concatenate((X_test, X_test.dot(CP_mat.T)), axis=1)
     print "Done."
     
-    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,-1)
+    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
 
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
@@ -254,10 +265,10 @@ def batch_expansion(CP, res_file, dataset,k,fname,opt):
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     return test_acc
 
-def batch_projection(CP, res_file, dataset,k,fname):
+def batch_projection(CP, res_file, dataset,k,fname,opt):
     print dataset
     # res_file.write("%s, " % dataset)
-    test_acc = evaluate_projection(CP,"../data/%s" % dataset, k, res_file,fname)
+    test_acc = evaluate_projection(CP,"../data/%s" % dataset, k, res_file,fname,opt)
     # res_file.write("%f, %f, %f\n" % (l2, train_acc, test_acc))
     return test_acc
 
@@ -305,21 +316,21 @@ def main():
 
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     
-    # acc_file = open('../work/%d/%s-%s-projection-acc'%(opt,dict_name,dataset),'w')
-    acc_file = open('../work/%d/%s-%s-proposed-acc'%(opt,dict_name,dataset),'w')
+    acc_file = open('../work/%d/%s-%s-projection-acc'%(opt,dict_name,dataset),'w')
+    # acc_file = open('../work/%d/%s-%s-proposed-acc'%(opt,dict_name,dataset),'w')
     # for dataset in datasets:
     for k in kvals:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        fname = "../work/%d/%s-%s-proposed-%d" % (opt,dataset,dict_name,k)
-        res_file = open("%s-words"%fname, 'w')
-        test_acc = batch_expansion(CP, res_file, dataset, k, fname,opt)
-        res_file.close()
-        
-        # fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
+        # fname = "../work/%d/%s-%s-proposed-%d" % (opt,dataset,dict_name,k)
         # res_file = open("%s-words"%fname, 'w')
-        # test_acc=batch_projection(CP, res_file, dataset, k, fname)
+        # test_acc = batch_expansion(CP, res_file, dataset, k, fname,opt)
         # res_file.close()
+        
+        fname = "../work/%s-%s-projection-%d" % (dataset,dict_name,k)
+        res_file = open("%s-words"%fname, 'w')
+        test_acc=batch_projection(CP, res_file, dataset, k, fname)
+        res_file.close()
         print test_acc
         acc_file.write('%f,%f\n'%(k, test_acc))
     acc_file.close()
