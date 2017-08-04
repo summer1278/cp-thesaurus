@@ -234,8 +234,8 @@ def evaluate_projection(CP,bench,k,res_file,fname,opt):
     #X_test = np.concatenate((X_test, X_test.dot(CP_mat.T)), axis=1)
     print "Done."
     
-    # wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
-    wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,option[1],0.001)
+    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
+    # wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,option[1],0.001)
 
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
@@ -313,7 +313,8 @@ def main():
     kvals = [20]
     # datasets = ["TR"]
     dataset = 'TR'
-    opt = 4
+    opt = sys.argv[2]
+    # opt = 3 
 
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     
