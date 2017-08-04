@@ -340,12 +340,12 @@ def main():
 def test():
     dict_name = sys.argv[1]
     k = 20
-    opt = 2
+    opt = int(sys.argv[2])
     dataset = 'TR'
     fname = "../work/%d/%s-%s-proposed-%d" % (opt,dataset,dict_name,k)
     link_sentences_with_words(fname)
     pass
 
 if __name__ == '__main__':
-    main()
-    # test()
+    # main()
+    test()
