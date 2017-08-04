@@ -313,7 +313,7 @@ def main():
     kvals = [20]
     # datasets = ["TR"]
     dataset = 'TR'
-    opt = sys.argv[2]
+    opt = int(sys.argv[2])
     # opt = 3 
 
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
