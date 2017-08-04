@@ -303,6 +303,8 @@ def link_sentences_with_words(fname):
     combined_file.close()
     pass
 
+# argv[1] = dict_name
+# argv[2] = opt
 def main():
     # dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
