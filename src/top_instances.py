@@ -234,8 +234,8 @@ def evaluate_projection(CP,bench,k,res_file,fname,opt):
     #X_test = np.concatenate((X_test, X_test.dot(CP_mat.T)), axis=1)
     print "Done."
     
-    wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
-    # wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,option[1],0.001)
+    # wrong_indices,test_acc = train_with_CV(X_train, y_train, X_test, y_test,option[1])
+    wrong_indices,test_acc = train_without_CV(X_train, y_train, X_test, y_test,option[1],0.001)
 
     print "\n ---- With Expansion ----"
     print "Test incorrects =", len(wrong_indices)
