@@ -48,6 +48,10 @@ def word_ids_generator():
     G.close()
     pass
 
+def compute_coreness():
+    
+    pass
+
 if __name__ == '__main__':
     # word_ids_generator()
     compute_links()
