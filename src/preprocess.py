@@ -23,6 +23,7 @@ def compute_links():
 def get_id(word):
     F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
+    F.close()
     word_id = words.index(word) if word in words else -1
     return word_id
 
@@ -57,6 +58,7 @@ def compute_coreness(domain):
     count_freq(fname,freq_dict)
     F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
+    F.close()
     features = set(freq_dict.keys())|set(words)
     G = open("../data/%s/freq_coreness.dat"%domain,"w")
     G.write("id \t coreness\n")
@@ -80,6 +82,7 @@ def compute_coreness_DA(source,target):
     # s = {}
     F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
+    F.close()
     features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
     G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
     G.write("id \t coreness\n")
