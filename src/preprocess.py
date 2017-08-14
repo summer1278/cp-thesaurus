@@ -5,6 +5,7 @@ Xia Cui
 August 2017
 """
 def compute_links():
+    print "generate links..."
     F = open("../data/bigrams.sorted","r")
     G = open("../data/bigram_links.dat","w")
     G.write("i \t j \t wij\n")
@@ -111,7 +112,7 @@ def write_original_sentences(fname):
     pass
 
 if __name__ == '__main__':
-    word_ids_generator()
-    # compute_links()
+    # word_ids_generator()
+    compute_links()
     # domian = "TR"
     # compute_coreness(domain)
