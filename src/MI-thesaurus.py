@@ -54,7 +54,7 @@ def inverted_thesaurus_generator(cp_fname, inv_fname):
     pass
 
 
-def PMI_thesaurs_generator(bigram_fname, thesaurus_fname):
+def PMI_thesaurus_generator(bigram_fname, thesaurus_fname):
     h = {}
     count = 0
     with open(bigram_fname) as F:
@@ -141,7 +141,7 @@ def assign_ppmi_scores_to_CP(cp_raw_fname, ppmi_fname, cp_thesaurus_fname):
 
 if __name__ == '__main__':
     #PMI_computation()
-    PMI_thesaurs_generator("../data/ppmi.values", "../data/PMI-thesaurus")
+    PMI_thesaurus_generator("../data/ppmi.values", "../data/PMI-thesaurus")
     #inverted_thesaurus_generator("../data/cp-overalp.ppmi", "../data/inv-cp-overlap.ppmi")
     #assign_ppmi_scores_to_CP("../data/cpwords/cpwords_overlap.dat", "../data/ppmi.values", "../data/cp-overlap.ppmi")
 

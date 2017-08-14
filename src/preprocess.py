@@ -5,7 +5,7 @@ Xia Cui
 August 2017
 """
 def compute_links():
-    F = open("../work/bigram.sorted","r")
+    F = open("../work/bigrams.sorted","r")
     G = open("../work/bigram_links.dat","w")
     G.write("i \t j \t wij\n")
     for line in F:
@@ -23,14 +23,14 @@ def compute_links():
 def get_id(word):
     F=open("../work/word_ids","r")
     words = [line[:-1] for line in F]
-    word_id = words.index(word)
+    word_id = words.index(word) if word in words else -1
     return word_id
 
 # generate from unigrams or bigrams?
 # firstly, try using bigrams
 def word_ids_generator():
     words = []
-    F = open("../work/bigram.sorted","r")
+    F = open("../work/bigrams.sorted","r")
     for line in F:
         p = line.strip().split(' ')
         word_i = p[0]
@@ -48,10 +48,61 @@ def word_ids_generator():
     G.close()
     pass
 
-def compute_coreness():
-    
+# coreness = pivothood = freq in domains = min(h(w,S), h(w,T))
+# if single domain?
+def compute_coreness(domain):
+    fname = "../data/%s/train"%domain
+    write_original_sentences(fname)
+    freq_dict = {}
+    count_freq(fname,freq_dict)
+    features = freq_dict.keys()
+    G = open("../data/%s/freq_coreness.dat"%domain,"w")
+    G.write("id \t coreness\n")
+    for feat in features:
+        if get_id(feat) != -1:
+            feat_id = get_id(feat)
+            G.write("%d \t %d\n"%(feat_id,freq_dict.get(feat,0)))
+    G.close()
+    pass
+
+# if domain adaptation?
+def compute_coreness_DA(source,target):
+    source_fname = "../data/%s/train"%source
+    target_fname = "../data/%s/train"%target
+    write_original_sentences(source_fname)
+    write_original_sentences(target_fname)
+    src_freq = {}
+    tgt_freq = {}
+    count_freq(source_fname,src_freq)
+    count_freq(target_fname,tgt_freq)
+    # s = {}
+    features = set(src_freq.keys()).union(set(tgt_freq.keys()))
+    G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
+    G.write("id \t coreness\n")
+    for feat in features:
+        # s[feat] = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
+        if get_id(feat) != -1:
+            feat_id = get_id(feat)
+            G.write("%d \t %d\n"%(feat_id,min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))))
+    G.close()
+    pass
+
+# count frequency and return a dict h
+def count_freq(fname, h):
+    for line in open("%s-sentences" % (fname)):
+        for feat in line.strip().split(','):
+            h[feat] = h.get(feat, 0) + 1
+    pass
+
+def write_original_sentences(fname):
+    lines = [line for line in open(fname)] 
+    res_file = open("%s-sentences" % (fname), 'w')
+    for line in open(fname):
+        res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    res_file.close()  
+    print "original sentences in %s have been written to the disk"%fname 
     pass
 
 if __name__ == '__main__':
     # word_ids_generator()
-    compute_links()
+    # compute_links()
