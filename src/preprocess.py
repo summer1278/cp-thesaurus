@@ -5,8 +5,8 @@ Xia Cui
 August 2017
 """
 def compute_links():
-    F = open("../work/bigrams.sorted","r")
-    G = open("../work/bigram_links.dat","w")
+    F = open("../data/bigrams.sorted","r")
+    G = open("../data/bigram_links.dat","w")
     G.write("i \t j \t wij\n")
     for line in F:
         p = line.strip().split(' ')
@@ -21,7 +21,7 @@ def compute_links():
 # get node id for a word in D
 # from word_ids pre-generated
 def get_id(word):
-    F=open("../work/word_ids","r")
+    F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
     word_id = words.index(word) if word in words else -1
     return word_id
@@ -30,7 +30,7 @@ def get_id(word):
 # firstly, try using bigrams
 def word_ids_generator():
     words = []
-    F = open("../work/bigrams.sorted","r")
+    F = open("../data/bigrams.sorted","r")
     for line in F:
         p = line.strip().split(' ')
         word_i = p[0]
@@ -39,7 +39,7 @@ def word_ids_generator():
         words.append(word_j)
     F.close()
     print "words loaded = ",len(set(words))
-    G = open("../work/word_ids","w")
+    G = open("../data/word_ids","w")
     # i = 0
     for word in set(words):
         # G.write('%d %s\n'%(i,word))
@@ -55,7 +55,7 @@ def compute_coreness(domain):
     write_original_sentences(fname)
     freq_dict = {}
     count_freq(fname,freq_dict)
-    F=open("../work/word_ids","r")
+    F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
     features = set(freq_dict.keys())|set(words)
     G = open("../data/%s/freq_coreness.dat"%domain,"w")
@@ -78,7 +78,7 @@ def compute_coreness_DA(source,target):
     count_freq(source_fname,src_freq)
     count_freq(target_fname,tgt_freq)
     # s = {}
-    F=open("../work/word_ids","r")
+    F=open("../data/word_ids","r")
     words = [line[:-1] for line in F]
     features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
     G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
