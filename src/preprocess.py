@@ -55,7 +55,9 @@ def compute_coreness(domain):
     write_original_sentences(fname)
     freq_dict = {}
     count_freq(fname,freq_dict)
-    features = freq_dict.keys()
+    F=open("../work/word_ids","r")
+    words = [line[:-1] for line in F]
+    features = set(freq_dict.keys())|set(words)
     G = open("../data/%s/freq_coreness.dat"%domain,"w")
     G.write("id \t coreness\n")
     for feat in features:
@@ -76,7 +78,9 @@ def compute_coreness_DA(source,target):
     count_freq(source_fname,src_freq)
     count_freq(target_fname,tgt_freq)
     # s = {}
-    features = set(src_freq.keys()).union(set(tgt_freq.keys()))
+    F=open("../work/word_ids","r")
+    words = [line[:-1] for line in F]
+    features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
     G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
     G.write("id \t coreness\n")
     for feat in features:
@@ -104,5 +108,7 @@ def write_original_sentences(fname):
     pass
 
 if __name__ == '__main__':
-    # word_ids_generator()
-    # compute_links()
+    word_ids_generator()
+    compute_links()
+    # domian = "TR"
+    # compute_coreness(domain)
