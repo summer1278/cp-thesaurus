@@ -112,6 +112,6 @@ def write_original_sentences(fname):
 
 if __name__ == '__main__':
     word_ids_generator()
-    compute_links()
+    # compute_links()
     # domian = "TR"
     # compute_coreness(domain)
