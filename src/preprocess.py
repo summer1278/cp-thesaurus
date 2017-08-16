@@ -51,7 +51,7 @@ def word_ids_generator():
     pass
 
 # coreness = pivothood = freq in domains = min(h(w,S), h(w,T))
-# if single domain?
+# if single domain? domain/freq_coreness.dat
 def compute_coreness(domain):
     fname = "../data/%s/train"%domain
     write_original_sentences(fname)
@@ -70,7 +70,7 @@ def compute_coreness(domain):
     G.close()
     pass
 
-# if domain adaptation?
+# if domain adaptation? source-target/freq_coreness.dat
 def compute_coreness_DA(source,target):
     source_fname = "../data/%s/train"%source
     target_fname = "../data/%s/train"%target
