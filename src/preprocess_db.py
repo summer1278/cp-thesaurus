@@ -76,10 +76,10 @@ def compute_coreness(domain):
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
             feat = line.strip()
-            # wids[feat] = wid_count
-            wid_count += 1
+            # wids[feat] = wid_count        
             coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
             G.write("%d \t %d\n"%(wid_count,coreness))
+            wid_count += 1
     G.close()
     pass
 
