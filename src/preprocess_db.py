@@ -26,12 +26,12 @@ def compute_links():
 
 # get node id for a word in D
 # from word_ids pre-generated
-def get_id(word):
-    F=open("../data/word_ids","r")
-    words = [line[:-1] for line in F]
-    F.close()
-    word_id = words.index(word) if word in words else -1
-    return word_id
+# def get_id(word):
+#     F=open("../data/word_ids","r")
+#     words = [line[:-1] for line in F]
+#     F.close()
+#     word_id = words.index(word) if word in words else -1
+#     return word_id
 
 # generate from unigrams or bigrams?
 # firstly, try using bigrams
@@ -56,22 +56,29 @@ def word_ids_generator():
     pass
 
 # coreness = pivothood = freq in domains = min(h(w,S), h(w,T))
-# if single domain?
+# if single domain? train = source, test = target
 def compute_coreness(domain):
-    fname = "../data/%s/train"%domain
-    write_original_sentences(fname)
-    freq_dict = {}
-    count_freq(fname,freq_dict)
-    F=open("../data/word_ids","r")
-    words = [line[:-1] for line in F]
-    F.close()
-    features = set(freq_dict.keys())|set(words)
-    G = open("../data/%s/freq_coreness.dat"%domain,"w")
-    G.write("id \t coreness\n")
-    for feat in features:
-        if get_id(feat) != -1:
-            feat_id = get_id(feat)
-            G.write("%d \t %d\n"%(feat_id,freq_dict.get(feat,0)))
+    source_fname = "../data/%s/train"%domain
+    target_fname = "../data/%s/test"%domain
+
+    write_original_sentences(source_fname)
+    write_original_sentences(target_fname)
+    src_freq = {}
+    tgt_freq = {}
+    count_freq(source_fname,src_freq)
+    count_freq(target_fname,tgt_freq)
+
+    # read word ids and process
+    G = open("../data/%s/freq_coreness.dat"%(domain),"w")
+    wids = {}
+    wid_count = 0
+    with open("../data/word_ids") as wid_file:
+        for line in wid_file:
+            feat = line.strip()
+            wids[feat] = wid_count
+            wid_count += 1
+            coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
+            G.write("%d \t %d\n"%(wid_count,coreness))
     G.close()
     pass
 
@@ -118,6 +125,6 @@ def write_original_sentences(fname):
 
 if __name__ == '__main__':
     # word_ids_generator()
-    compute_links()
-    # domian = "TR"
-    # compute_coreness(domain)
+    # compute_links()
+    domian = "TR"
+    compute_coreness(domain)
