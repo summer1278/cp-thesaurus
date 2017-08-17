@@ -70,6 +70,7 @@ def compute_coreness(domain):
 
     # read word ids and process
     G = open("../data/%s/freq_coreness.dat"%domain,"w")
+    G.write("id \t coreness\n")
     # wids = {}
     wid_count = 0
     with open("../data/word_ids") as wid_file:
