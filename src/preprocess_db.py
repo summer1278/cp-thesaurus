@@ -69,13 +69,13 @@ def compute_coreness(domain):
     count_freq(target_fname,tgt_freq)
 
     # read word ids and process
-    G = open("../data/%s/freq_coreness.dat"%(domain),"w")
-    wids = {}
+    G = open("../data/%s/freq_coreness.dat"%domain,"w")
+    # wids = {}
     wid_count = 0
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
             feat = line.strip()
-            wids[feat] = wid_count
+            # wids[feat] = wid_count
             wid_count += 1
             coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
             G.write("%d \t %d\n"%(wid_count,coreness))
