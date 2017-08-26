@@ -143,7 +143,7 @@ def convert_cp_nonoverlap(domain):
     next(F) # skip the first line of the read file
     for line in F:
         p = line.strip().split()
-        if p[3]==1:
+        if int(p[3])==1:
             cores.append(int(p[0]))
     print cores, len(cores)
 
