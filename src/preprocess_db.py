@@ -150,7 +150,7 @@ def convert_cp_nonoverlap(domain):
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
     for core in cores.keys():
-        print ("%s,%f,"%(wids.get(core,0),cores.get(core,0)))
+        print ("%s,%f,"%(wids.keys()[wids.values().index(core)],cores.get(core,0)))
 
     pass
 
