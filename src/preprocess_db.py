@@ -145,7 +145,7 @@ def convert_cp_nonoverlap(domain):
         p = line.strip().split()
         if int(p[3])==1:
             cores[int(p[0])]={"coreness":float(p[2]),"peris":[]}
-    print cores
+    # print cores
     for line in F:
         p = line.strip().split()
         if int(p[3])==0:
