@@ -138,11 +138,14 @@ def convert_cp_nonoverlap(domain):
             wids[line.strip()] = wid_count
             wid_count += 1
     
+    cores = []
     F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
     next(F) # skip the first line of the read file
     for line in F:
         p = line.strip().split()
-        print p
+        if p[3]==1:
+            cores.append(int(p[0]))
+    print cores, len(cores)
 
     pass
 
