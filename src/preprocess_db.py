@@ -124,8 +124,15 @@ def write_original_sentences(fname):
     print "original sentences in %s have been written to the disk"%fname 
     pass
 
+# convert cp-nonoverlap results from kmcpp to
+# core,coreness,peri1,peri2... 
+# replace word_ids with words
+def convert_cp_nonoverlap(fname):
+
+    pass
+
 if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     domain = "TR"
-    compute_coreness(domain)
+    # compute_coreness(domain)
