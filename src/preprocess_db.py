@@ -151,6 +151,7 @@ def convert_cp_nonoverlap(domain):
     next(F) # skip the first line of the read file
     for line in F:
         p = line.strip().split()
+        print p
         if int(p[3])==0:
             cores[int(p[1])]["peris"].append(int(p[0]))
 
