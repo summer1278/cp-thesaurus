@@ -100,11 +100,14 @@ def compute_coreness_DA(source,target):
     features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
     G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
     G.write("id \t coreness\n")
-    for feat in features:
-        # s[feat] = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
-        if get_id(feat) != -1:
-            feat_id = get_id(feat)
-            G.write("%d \t %d\n"%(feat_id,min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))))
+    wid_count = 0
+    with open("../data/word_ids") as wid_file:
+        for line in wid_file:
+            feat = line.strip()
+            # wids[feat] = wid_count        
+            coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
+            G.write("%d \t %d\n"%(wid_count,coreness))
+            wid_count += 1
     G.close()
     pass
 
@@ -127,8 +130,14 @@ def write_original_sentences(fname):
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
 # replace word_ids with words
-def convert_cp_nonoverlap(fname):
-
+def convert_cp_nonoverlap():
+    wids = {}
+    wid_count = 0
+    with open("../data/word_ids") as wid_file:
+        for line in wid_file:
+            wids[line.strip()] = wid_count
+            wid_count += 1
+    print wids
     pass
 
 if __name__ == '__main__':
@@ -136,3 +145,4 @@ if __name__ == '__main__':
     # compute_links()
     domain = "TR"
     # compute_coreness(domain)
+    convert_cp_nonoverlap()
