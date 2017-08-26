@@ -149,8 +149,9 @@ def convert_cp_nonoverlap(domain):
     print cores
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
-    # for core in cores:
-    #     G.write("%s,%f,"%)
+    for core in cores.keys():
+        print ("%s,%f,"%(wids.get(core,0),cores.get(core,0)))
+
     pass
 
 if __name__ == '__main__':
