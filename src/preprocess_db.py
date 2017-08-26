@@ -152,7 +152,7 @@ def convert_cp_nonoverlap(domain):
     for line in F:
         p = line.strip().split()
         if int(p[3])==0:
-            cores[int(p[1])]['peris'].append(int(p[0]))
+            cores[int(p[1])]["peris"].append(int(p[0]))
 
     print cores
     # write each core with coreness and its peris as a line
