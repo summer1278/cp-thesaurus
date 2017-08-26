@@ -144,13 +144,17 @@ def convert_cp_nonoverlap(domain):
     for line in F:
         p = line.strip().split()
         if int(p[3])==1:
-            cores[int(p[0])]=float(p[2])
+            cores[int(p[0])]['coreness']=float(p[2])
+        else:
+            cores[int(p[1])]['peris'].append(int(p[0]))
 
     print cores
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
-    for core in cores.keys():
-        print ("%s,%f,"%(wids.keys()[wids.values().index(core)],cores.get(core,0)))
+    # for core in cores.keys():
+    #     print ("%s,%f,"%(wids.keys()[wids.values().index(core)],cores.get(core,0)))
+    #     for line in F:
+    #         p = line.strip().split()
 
     pass
 
