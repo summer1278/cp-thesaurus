@@ -130,14 +130,20 @@ def write_original_sentences(fname):
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
 # replace word_ids with words
-def convert_cp_nonoverlap():
+def convert_cp_nonoverlap(domain):
     wids = {}
     wid_count = 0
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
             wids[line.strip()] = wid_count
             wid_count += 1
-    print wids
+    
+    F = open("../data/%s/result_nonverlap.dat"%domain,"r"):
+    next(F) # skip the first line of the read file
+    for line in F:
+        p = line.strip().split()
+        print p
+
     pass
 
 if __name__ == '__main__':
@@ -145,4 +151,4 @@ if __name__ == '__main__':
     # compute_links()
     domain = "TR"
     # compute_coreness(domain)
-    convert_cp_nonoverlap()
+    convert_cp_nonoverlap(domain)
