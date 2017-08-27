@@ -180,7 +180,7 @@ def convert_cp_nonoverlap(domain):
     # only use max(coreness) as core
     new_cores = {k: cores[k] for k in core_keys}
     # print new_cores
-    # write each core with coreness and its peris as a line
+    
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
     # for core in cores.keys():
     #     print ("%s,%f,"%(wids.keys()[wids.values().index(core)],cores.get(core,0)))
@@ -197,9 +197,16 @@ def convert_cp_nonoverlap(domain):
             if h:
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
-                print new_cores[temp_key]['peris']
     F.close()
 
+    # write each core with coreness and its peris as a line
+    # G = open("../data/%s/cpwords_nonoverlap.dat"%domain ,"w")
+    for core in new_cores:
+        # G.wrtie("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
+        # G.write('%s\n'%','.join(peris))
+        print ('%s\n'%','.join(peris))
     pass
 
 # convert cp-overlap results from kmcpp to
