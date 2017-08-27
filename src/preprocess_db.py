@@ -169,10 +169,14 @@ def convert_cp_nonoverlap(domain):
     F.close()
 
     # print cores
-    print max(cores.iterkeys(), key=(lamda key["coreness"]: cores[key]["coreness"]))
-    # for cp_pair in set(cp_pairs)
- 
+    core_keys=[]
+    for cp_pair in set(cp_pairs):
+        h = [value['coreness'] for value in cores.values() if value['cp_pair']==cp_pair]
+        core_key = cores.keys()[[idx for idx,value in enumrate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']=max(h)][0]]
+        print core_key
+        core_keys.append(core_key)
 
+    print len(core_keys)
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
     # for core in cores.keys():
