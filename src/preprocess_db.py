@@ -168,9 +168,9 @@ def convert_cp_nonoverlap(domain):
             cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1])}
     F.close()
 
-    print cores
-    # F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
-    # next(F)
+    # print cores
+    print max(cores.iterkeys(), key=(lamda key: cores[key]["coreness"]))
+    # for cp_pair in set(cp_pairs)
  
 
     # write each core with coreness and its peris as a line
