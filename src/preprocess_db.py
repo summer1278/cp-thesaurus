@@ -158,13 +158,13 @@ def convert_cp_nonoverlap(domain):
     # print cores
 
     cores = {}
-    cp_pairs = set()
+    cp_pairs = []
     F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
     next(F) # skip the first line of the read file
     for line in F:
         p = line.strip().split()
         cp_pairs.append(int(p[1]))
-    print cp_pairs,len(cp_pairs)
+    print set(cp_pairs),len(set(cp_pairs))
 
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
