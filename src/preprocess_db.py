@@ -139,23 +139,33 @@ def convert_cp_nonoverlap(domain):
             wid_count += 1
     
     cores = {}
-    F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
-    next(F) # skip the first line of the read file
-    for line in F:
-        p = line.strip().split()
-        if int(p[3])==1:
-            cores[int(p[0])]={"coreness":float(p[2]),"peris":[]}
-    F.close()
-    # add peris
-    F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
-    next(F) # skip the first line of the read file
-    for line in F:
-        p = line.strip().split()
-        print p
-        if int(p[3])==0:
-            cores[int(p[1])]["peris"].append(int(p[0]))
+    # F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    # next(F) # skip the first line of the read file
+    # for line in F:
+    #     p = line.strip().split()
+    #     if int(p[3])==1:
+    #         cores[int(p[0])]={"coreness":float(p[2]),"peris":[]}
+    # F.close()
+    # # add peris
+    # F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    # next(F) # skip the first line of the read file
+    # for line in F:
+    #     p = line.strip().split()
+    #     print p
+    #     if int(p[3])==0:
+    #         cores[int(p[1])]["peris"].append(int(p[0]))
 
-    print cores
+    # print cores
+
+    cores = {}
+    cp_pairs = set()
+    F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    next(F) # skip the first line of the read file
+    for line in F:
+        p = line.strip().split()
+        cp_pairs.append(int(p[1]))
+    print cp_pairs,len(cp_pairs)
+
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
     # for core in cores.keys():
@@ -164,6 +174,11 @@ def convert_cp_nonoverlap(domain):
     #         p = line.strip().split()
 
     pass
+
+# convert cp-overlap results from kmcpp to
+# core,coreness,peri1,peri2...
+# replace word_ids with words
+
 
 if __name__ == '__main__':
     # word_ids_generator()
