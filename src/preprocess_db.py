@@ -188,25 +188,28 @@ def convert_cp_nonoverlap(domain):
     #         p = line.strip().split()
 
     F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    # F = open("../../kmcpp/result.dat","r")
     next(F)
     for line in F:
         p =line.strip().split()
         if int(p[0]) not in core_keys:
             h = [idx for idx,value in enumerate(new_cores.values()) if value['cp_pair']==int(p[1])]
-            print h
+            # print h
             if h:
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
     F.close()
 
     # write each core with coreness and its peris as a line
-    # G = open("../data/%s/cpwords_nonoverlap.dat"%domain ,"w")
+    G = open("../data/%s/cpwords_nonoverlap.dat"%domain ,"w")
     for core in new_cores:
-        # G.wrtie("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
-        print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        G.wrtie("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
-        # G.write('%s\n'%','.join(peris))
-        print ('%s\n'%','.join(peris))
+        G.write('%s\n'%','.join(peris))
+        # print ('%s\n'%','.join(peris))
+
+    G.close()
     pass
 
 # convert cp-overlap results from kmcpp to
