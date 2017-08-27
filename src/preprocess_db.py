@@ -164,7 +164,14 @@ def convert_cp_nonoverlap(domain):
     for line in F:
         p = line.strip().split()
         cp_pairs.append(int(p[1]))
-    print set(cp_pairs),len(set(cp_pairs))
+        if int(p[3])==1:
+            cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1])}
+    F.close()
+
+    print cores
+    # F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    # next(F)
+ 
 
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
