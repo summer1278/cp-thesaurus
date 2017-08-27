@@ -172,7 +172,7 @@ def convert_cp_nonoverlap(domain):
     core_keys=[]
     for cp_pair in set(cp_pairs):
         h = [value['coreness'] for value in cores.values() if value['cp_pair']==cp_pair]
-        print [idx for idx,value in enumerate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']==max(h)]
+        print h, max(h)
         core_key = cores.keys()[[idx for idx,value in enumerate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']==max(h)][0]]
         print core_key
         core_keys.append(core_key)
