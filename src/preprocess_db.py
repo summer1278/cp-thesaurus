@@ -176,7 +176,7 @@ def convert_cp_nonoverlap(domain):
         print core_key
         core_keys.append(core_key)
 
-    print len(core_keys)
+    print len(core_keys),len(set(cp_pairs))
     # write each core with coreness and its peris as a line
     # G = open("../data/%s/result_cp_nonoverlap.dat"%domain ,"r")
     # for core in cores.keys():
