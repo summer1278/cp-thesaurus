@@ -150,10 +150,8 @@ def convert_cp_nonoverlap(domain):
             cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1]),"peris":[]}
     F.close()
 
-    # print cores
     core_keys=[]
     for cp_pair in set(cp_pairs):
-        # print cp_pair
         h = [value['coreness'] for value in cores.values() if value['cp_pair']==cp_pair]
         if h:
             core_key = cores.keys()[[idx for idx,value in enumerate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']==max(h)][0]]
@@ -181,7 +179,7 @@ def convert_cp_nonoverlap(domain):
     # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_nonoverlap.dat"%domain ,"w")
     for core in new_cores:
-        G.wrtie("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
         G.write('%s\n'%','.join(peris))
@@ -194,11 +192,39 @@ def convert_cp_nonoverlap(domain):
 # core,coreness,peri1,peri2...
 # replace word_ids with words
 def convert_cp_overlap(domain):
+    wids = {}
+    wid_count = 0
+    with open("../data/word_ids") as wid_file:
+        for line in wid_file:
+            wids[line.strip()] = wid_count
+            wid_count += 1
+
+    new_cores = {}
+    # cp_pairs = [] # in case there are multiple cores in the cp_pair
+    F = open("../data/%s/result_overlap.dat"%domain,"r")
+    # F = open("../../kmcpp/result_overlap.dat","r")
+    next(F)
+    for line in F:
+        p = line.strip().split()
+        new_cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1]),"peris":map(int,p[3:])}
+    F.close()
+    print new_cores   
+
+    G = open("../data/%s/cpwords_overlap.dat"%domain ,"w")
+    for core in new_cores:
+        G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
+        G.write('%s\n'%','.join(peris))
+        # print ('%s\n'%','.join(peris))
+    G.close() 
     pass
+
 
 if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     domain = "TR"
     # compute_coreness(domain)
-    convert_cp_nonoverlap(domain)
+    # convert_cp_nonoverlap(domain)
+    convert_cp_overlap(domain)
