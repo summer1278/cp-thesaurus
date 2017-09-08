@@ -307,7 +307,7 @@ def link_sentences_with_words(fname):
 # argv[2] = opt
 def main():
     # dict_name = "cp-overalp.ppmi"
-    #dict_name = "PMI-thesaurus"
+    # dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
     # res_file.write("dataset, k, l2, true_instances, false_instances\n")
     # k=1000

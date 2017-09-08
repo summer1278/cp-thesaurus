@@ -336,7 +336,7 @@ def main():
     #dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
     dict_name = sys.argv[1]
-    res_file = open("../work/%s-batchres.csv" % dict_name, 'w')
+    res_file = open("../work/%s-batchres-v2.csv" % dict_name, 'w')
     res_file.write("dataset, k, l2, train_acc, test_acc\n")
 
     datasets = ["TR"]
