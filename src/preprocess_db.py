@@ -226,5 +226,5 @@ if __name__ == '__main__':
     # compute_links()
     domain = "TR"
     # compute_coreness(domain)
-    # convert_cp_nonoverlap(domain)
-    convert_cp_overlap(domain)
+    convert_cp_nonoverlap(domain)
+    # convert_cp_overlap(domain)
