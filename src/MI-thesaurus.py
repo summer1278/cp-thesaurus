@@ -141,10 +141,13 @@ def assign_ppmi_scores_to_CP(cp_raw_fname, ppmi_fname, cp_thesaurus_fname):
 
 if __name__ == '__main__':
     #PMI_computation()
-    PMI_thesaurus_generator("../data/ppmi.values", "../data/PMI-thesaurus")
+    # PMI_thesaurus_generator("../data/ppmi.values", "../data/PMI-thesaurus")
     #inverted_thesaurus_generator("../data/cp-overalp.ppmi", "../data/inv-cp-overlap.ppmi")
     #assign_ppmi_scores_to_CP("../data/cpwords/cpwords_overlap.dat", "../data/ppmi.values", "../data/cp-overlap.ppmi")
 
+    dataset = 'TR'
+    assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat", "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
+    # assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat", "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
 
 
 
