@@ -146,8 +146,8 @@ if __name__ == '__main__':
     #assign_ppmi_scores_to_CP("../data/cpwords/cpwords_overlap.dat", "../data/ppmi.values", "../data/cp-overlap.ppmi")
 
     dataset = 'TR'
-    # assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat", "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
-    assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat", "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
+    assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
+    # assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
 
 
 
