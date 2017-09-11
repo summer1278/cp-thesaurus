@@ -125,6 +125,7 @@ def assign_ppmi_scores_to_CP(cp_raw_fname, ppmi_fname, cp_thesaurus_fname):
                     source = p[0]
                     coreness = float(p[1])
                     peris = p[2:]
+                    print source, peris
                     G.write("%s %f " % (source, coreness))
                     for peri in peris:
                         if (source, peri) in h:
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     #assign_ppmi_scores_to_CP("../data/cpwords/cpwords_overlap.dat", "../data/ppmi.values", "../data/cp-overlap.ppmi")
 
     dataset = 'TR'
-    assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat"%dataset, "../data/bigrams.sorted", "../data/%s/cp-overlap.ppmi"%dataset)
+    assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
     # assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
 
 
