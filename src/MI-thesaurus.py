@@ -125,7 +125,7 @@ def assign_ppmi_scores_to_CP(cp_raw_fname, ppmi_fname, cp_thesaurus_fname):
                     source = p[0]
                     coreness = float(p[1])
                     peris = p[2:]
-                    print source, peris
+                    # print source, peris
                     G.write("%s %f " % (source, coreness))
                     for peri in peris:
                         if (source, peri) in h:
