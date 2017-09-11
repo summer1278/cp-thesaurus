@@ -130,8 +130,10 @@ def assign_ppmi_scores_to_CP(cp_raw_fname, ppmi_fname, cp_thesaurus_fname):
                     for peri in peris:
                         if (source, peri) in h:
                             val = h[(source, peri)]
-                        else:
+                        elif (peri, source) in h:
                             val = h[(peri, source)]
+                        else:
+                            print "skip %s,%s" %(source,peri)
                         G.write("%s,%f " % (peri, val))
                     G.write("\n")
                 except ValueError as e:
@@ -147,8 +149,8 @@ if __name__ == '__main__':
     #assign_ppmi_scores_to_CP("../data/cpwords/cpwords_overlap.dat", "../data/ppmi.values", "../data/cp-overlap.ppmi")
 
     dataset = 'TR'
-    assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
-    # assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
+    # assign_ppmi_scores_to_CP("../data/%s/cpwords_overlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-overlap.ppmi"%dataset)
+    assign_ppmi_scores_to_CP("../data/%s/cpwords_nonoverlap.dat"%dataset, "../data/ppmi.values", "../data/%s/cp-nonoverlap.ppmi"%dataset)
 
 
 
