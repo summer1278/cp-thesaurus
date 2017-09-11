@@ -316,26 +316,26 @@ def main():
     # datasets = ["TR"]
     dataset = 'TR'
     opt = int(sys.argv[2])
+    method = sys.argv[3]
     # opt = 3 
 
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     
-    acc_file = open('../work/%d/%s-%s-projection-acc'%(opt,dict_name,dataset),'w')
-    # acc_file = open('../work/%d/%s-%s-proposed-acc'%(opt,dict_name,dataset),'w')
+    acc_file = open('../work/%d/%s-%s-%s-acc'%(opt,dict_name,method,dataset),'w')
     # for dataset in datasets:
     for k in kvals:
         CP = expand.CP_EXPANDER()
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
-        # fname = "../work/%d/%s-%s-proposed-%d" % (opt,dataset,dict_name,k)
-        # res_file = open("%s-words"%fname, 'w')
-        # test_acc = batch_expansion(CP, res_file, dataset, k, fname,opt)
-        # res_file.close()
         
-        fname = "../work/%d/%s-%s-projection-%d" % (opt,dataset,dict_name,k)
+        fname = "../work/%d/%s-%s-%s-%d" % (opt,dataset,dict_name,method,k)
         res_file = open("%s-words"%fname, 'w')
-        test_acc=batch_projection(CP, res_file, dataset, k, fname,opt)
-        res_file.close()
-        print test_acc
+        if method == "projection":
+            test_acc=batch_projection(CP, res_file, dataset, k, fname,opt)
+            print test_acc
+        else:
+            test_acc = batch_expansion(CP, res_file, dataset, k, fname,opt)
+            print test_acc
+        res_file.close()        
         acc_file.write('%f,%f\n'%(k, test_acc))
     acc_file.close()
 
