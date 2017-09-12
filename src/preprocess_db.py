@@ -13,8 +13,8 @@ def compute_links():
             wid_count += 1
             
     print "generate links..."
-    F = open("../data/bigrams.sorted","r")
-    G = open("../data/bigram_links.dat","w")
+    F = open("../data/ppmi.values","r")
+    G = open("../data/ppmi_links.dat","w")
     G.write("i \t j \t wij\n")
     for line in F:
         p = line.strip().split(' ')
@@ -37,7 +37,7 @@ def compute_links():
 # firstly, try using bigrams
 def word_ids_generator():
     words = []
-    F = open("../data/bigrams.sorted","r")
+    F = open("../data/bppmi.values","r")
     for line in F:
         p = line.strip().split(' ')
         word_i = p[0]
@@ -222,9 +222,9 @@ def convert_cp_overlap(domain):
 
 
 if __name__ == '__main__':
-    # word_ids_generator()
-    # compute_links()
+    word_ids_generator()
+    compute_links()
     domain = "TR"
     # compute_coreness(domain)
-    convert_cp_nonoverlap(domain)
+    # convert_cp_nonoverlap(domain)
     # convert_cp_overlap(domain)
