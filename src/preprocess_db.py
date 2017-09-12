@@ -121,7 +121,7 @@ def compute_ppmi_coreness(domain,k):
             # print x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews
             src_ppmi = ppmi(x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews) 
             tgt_ppmi = ppmi(x_total.get(x,0), x_tgt.get(x,0), tgt_reviews, total_reviews)
-            ppmi_dict[x] = abs(src_ppmi-tgt_ppmi)
+            ppmi_dict[x] = (src_ppmi-tgt_ppmi)**2
     L = ppmi_dict.items()
     L.sort(lambda x, y: -1 if x[1] < y[1] else 1)
     top_feats = [x for (x,val) in L[:k]]
@@ -212,7 +212,7 @@ def reviews_contain_x(features, fname):
     features = list(features)
     feautres_vector = numpy.zeros(len(features), dtype=float)
     for line in open(fname):
-        print line
+        # print line
         for x in set(line.strip().split(',')):
             i = features.index(x)
             feautres_vector[i] += 1
