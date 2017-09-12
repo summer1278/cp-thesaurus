@@ -143,8 +143,8 @@ def write_original_sentences(fname):
 
 # write separately original sentences to positive and negative
 def count_reviews(fname,opt):
-    F=open(fname+'-pos')
-    G=open(fname+'-neg')
+    F=open(fname+'-pos','w')
+    G=open(fname+'-neg','w')
     for line in open(fname):
         if line.strip.split(' ')[0]=='+1':
             F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
