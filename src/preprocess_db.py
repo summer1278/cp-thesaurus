@@ -108,11 +108,12 @@ def compute_ppmi_coreness(domain,k):
     total_reviews = float(src_reviews+tgt_reviews)
     write_original_sentences(source_fname)
     write_original_sentences(target_fname)
+    features = set(features_list(source_fname+'-sentences')).union(set(features_list(target_fname+'-sentences')))
+    print features
     x_src = reviews_contain_x(features_list(source_fname+'-sentences'),source_fname+'-sentences')
     x_tgt = reviews_contain_x(features_list(target_fname+'-sentences'),target_fname+'-sentences')
     x_total = combine_dicts(x_src,x_tgt)
-    features = set(features_list(source_fname+'-sentences')).union(set(features_list(target_fname+'-sentences')))
-    print features
+    
 
     ppmi_dict={}
     for x in features:
