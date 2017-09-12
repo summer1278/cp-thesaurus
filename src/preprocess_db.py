@@ -251,7 +251,7 @@ if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     domain = "TR"
-    compute_ppmi_coreness
+    compute_ppmi_coreness(domain)
     # compute_freq_coreness(domain)
     # convert_cp_nonoverlap(domain)
     # convert_cp_overlap(domain)
