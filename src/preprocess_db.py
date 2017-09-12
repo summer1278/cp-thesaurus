@@ -132,6 +132,7 @@ def compute_ppmi_coreness(domain,k):
     G.write("id \t coreness\n")
     # wids = {}
     wid_count = 0
+    nonzeros = 0
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
             feat = line.strip()
@@ -139,8 +140,10 @@ def compute_ppmi_coreness(domain,k):
             coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
             if coreness >0:
                 print wid_count,coreness
+                nonzeros += 1
             G.write("%d \t %d\n"%(wid_count,coreness))
             wid_count += 1
+    print nonzeros
     G.close()
 
     pass
