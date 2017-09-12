@@ -57,7 +57,7 @@ def word_ids_generator():
 
 # coreness = pivothood = freq in domains = min(h(w,S), h(w,T))
 # if single domain? train = source, test = target
-def compute_coreness(domain):
+def compute_freq_coreness(domain):
     source_fname = "../data/%s/train"%domain
     target_fname = "../data/%s/test"%domain
 
@@ -81,6 +81,20 @@ def compute_coreness(domain):
             G.write("%d \t %d\n"%(wid_count,coreness))
             wid_count += 1
     G.close()
+    pass
+
+def compute_ppmi_coreness(domain):
+    source_fname = "../data/%s/train"%domain
+    target_fname = "../data/%s/test"%domain
+
+    count_reviews(source_fname,'pos')
+    count_reviews(source_fname,'neg')
+    count_reviews(source_fname,'all')
+    # write_original_sentences(source_fname)
+    # write_original_sentences(target_fname)
+    src_ppmi = {}
+    tgt_ppmi = {}
+
     pass
 
 # if domain adaptation?
@@ -125,6 +139,18 @@ def write_original_sentences(fname):
         res_file.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
     res_file.close()  
     print "original sentences in %s have been written to the disk"%fname 
+    pass
+
+# write separately original sentences to positive and negative
+def count_reviews(fname,opt):
+    count = 0
+    if opt == "pos":
+        count = len([line for line in open(fname) if int(line[:1])==1])
+    elif opt == "neg":
+        count = len([line for line in open(fname) if int(line[:1])==-1])
+    else:
+        count = len([line for line in open(fname)])
+    print count
     pass
 
 # convert cp-nonoverlap results from kmcpp to
@@ -222,9 +248,10 @@ def convert_cp_overlap(domain):
 
 
 if __name__ == '__main__':
-    word_ids_generator()
-    compute_links()
+    # word_ids_generator()
+    # compute_links()
     domain = "TR"
-    # compute_coreness(domain)
+    compute_ppmi_coreness
+    # compute_freq_coreness(domain)
     # convert_cp_nonoverlap(domain)
     # convert_cp_overlap(domain)
