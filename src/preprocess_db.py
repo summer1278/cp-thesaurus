@@ -37,7 +37,7 @@ def compute_links():
 # firstly, try using bigrams
 def word_ids_generator():
     words = []
-    F = open("../data/bppmi.values","r")
+    F = open("../data/ppmi.values","r")
     for line in F:
         p = line.strip().split(' ')
         word_i = p[0]
