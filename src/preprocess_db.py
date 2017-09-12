@@ -145,9 +145,9 @@ def write_original_sentences(fname):
 def count_reviews(fname,opt):
     count = 0
     if opt == "pos":
-        count = len([line for line in open(fname) if line[:1]=='+1'])
+        count = len([line for line in open(fname) if line.strip().split(' ')[0]=='+1'])
     elif opt == "neg":
-        count = len([line for line in open(fname) if line[:1]=='-1'])
+        count = len([line for line in open(fname) if line.strip().split(' ')[0]=='-1'])
     else:
         count = len([line for line in open(fname)])
     print count
