@@ -4,6 +4,9 @@ Preprocess files for CP thesaurus
 Xia Cui
 August 2017
 """
+
+import numpy
+
 def compute_links():
     wids = {}
     wid_count = 0
