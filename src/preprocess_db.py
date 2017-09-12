@@ -90,7 +90,8 @@ def compute_ppmi_coreness(domain):
     count_reviews(source_fname,'pos')
     count_reviews(source_fname,'neg')
     count_reviews(source_fname,'all')
-    # write_original_sentences(source_fname)
+    write_original_sentences(source_fname)
+    print len(features_list(source_fname+'-sentences'))
     # write_original_sentences(target_fname)
     src_ppmi = {}
     tgt_ppmi = {}
@@ -152,6 +153,9 @@ def count_reviews(fname,opt):
         count = len([line for line in open(fname)])
     print count
     pass
+
+def features_list(fname):
+    return list(set([word for line in open(fname) for word in line.split()]))
 
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
