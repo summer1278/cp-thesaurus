@@ -219,7 +219,7 @@ def ppmi(joint_x, x_scale, y, N):
     prob_y = float(y / N)
     prob_x = float(joint_x / N)
     prob_x_scale = float(x_scale / N)
-    print prob_x,prob_y,prob_x_scale
+    print joint_x
     val = float(prob_x_scale / (prob_x * prob_y))
     return math.log(val) if math.log(val) > 0 else 0
 
