@@ -146,7 +146,7 @@ def count_reviews(fname,opt):
     F=open(fname+'-pos','w')
     G=open(fname+'-neg','w')
     for line in open(fname):
-        if line.strip.split(' ')[0]=='+1':
+        if line.strip().split(' ')[0]=='+1':
             F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
         elif line.strip().split(' ')[0]=='-1':
             G.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
