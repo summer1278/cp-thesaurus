@@ -91,11 +91,10 @@ def compute_ppmi_coreness(domain):
     count_reviews(source_fname,'neg')
     count_reviews(source_fname,'all')
     write_original_sentences(source_fname)
-    print len(features_list(source_fname+'-sentences'))
+    (features_list(source_fname+'-sentences'),)
     # write_original_sentences(target_fname)
     src_ppmi = {}
     tgt_ppmi = {}
-
     pass
 
 # if domain adaptation?
@@ -144,9 +143,20 @@ def write_original_sentences(fname):
 
 # write separately original sentences to positive and negative
 def count_reviews(fname,opt):
+    F=open(fname+'-pos')
+    G=open(fname+'-neg')
+    for line in open(fname):
+        if line.strip.split(' ')[0]=='+1':
+            F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+        elif line.strip().split(' ')[0]=='-1':
+            G.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    F.close()
+    G.close()
+
     count = 0
     if opt == "pos":
         count = len([line for line in open(fname) if line.strip().split(' ')[0]=='+1'])
+
     elif opt == "neg":
         count = len([line for line in open(fname) if line.strip().split(' ')[0]=='-1'])
     else:
@@ -156,6 +166,19 @@ def count_reviews(fname,opt):
 
 def features_list(fname):
     return list(set([word for line in open(fname) for word in line.split()]))
+
+def reviews_contain_x(features, fname):
+    # for x in features:
+    #     for line in open(fname):
+    #         if x in line.strip().split():
+    #             h[x] = h.get(x, 0) + 1
+    features = list(features)
+    feautres_vector = numpy.zeros(len(features), dtype=float)
+    for line in open(fname):
+        for x in set(line.strip().split()):
+            i = features.index(x)
+            feautres_vector[i] += 1
+    return dict(zip(features,feautres_vector))
 
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
