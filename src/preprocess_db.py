@@ -119,10 +119,10 @@ def compute_ppmi_coreness(domain,k):
         if x_total.get(x,0)*x_src.get(x,0)*x_tgt.get(x,0) > 0:
             src_ppmi = ppmi(x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews) 
             tgt_ppmi = ppmi(x_total.get(x,0), x_tgt.get(x,0), tgt_reviews, total_reviews)
-            ppmi_dict[x] = abs(ppmi(src_ppmi)-ppmi(tgt_ppmi))
+            ppmi_dict[x] = abs(src_ppmi-tgt_ppmi)
     L = ppmi_dict.items()
     L.sort(lambda x, y: -1 if x[1] < y[1] else 1)
-    top_feats = [x for (x,ppmi) in L[:k]]
+    top_feats = [x for (x,val) in L[:k]]
     print top_feats, len(top_feats)
 
     # read word ids and process
