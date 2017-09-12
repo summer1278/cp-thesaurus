@@ -137,7 +137,8 @@ def compute_ppmi_coreness(domain,k):
             feat = line.strip()
             # wids[feat] = wid_count        
             coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
-            print wid_count,coreness if coreness >0
+            if coreness >0:
+                print wid_count,coreness
             G.write("%d \t %d\n"%(wid_count,coreness))
             wid_count += 1
     G.close()
