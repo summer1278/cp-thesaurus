@@ -83,18 +83,59 @@ def compute_freq_coreness(domain):
     G.close()
     pass
 
-def compute_ppmi_coreness(domain):
+def compute_ppmi_coreness(domain,k):
     source_fname = "../data/%s/train"%domain
     target_fname = "../data/%s/test"%domain
 
-    count_reviews(source_fname,'pos')
-    count_reviews(source_fname,'neg')
-    count_reviews(source_fname,'all')
+    # source labelled
+    # fname = source_fname
+    # F=open(fname+'-pos','w')
+    # G=open(fname+'-neg','w')
+    # for line in open(fname):
+    #     if line.strip().split(' ')[0]=='+1':
+    #         F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    #     elif line.strip().split(' ')[0]=='-1':
+    #         G.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
+    # F.close()
+    # G.close()
+    # count_reviews(source_fname,'pos')
+    # count_reviews(source_fname,'neg')
+    src_reviews = count_reviews(source_fname,'all')
+    tgt_reviews = count_reviews(target_fname,'all')
+    total_reviews = src_reviews+tgt_reviews
     write_original_sentences(source_fname)
-    (features_list(source_fname+'-sentences'),)
-    # write_original_sentences(target_fname)
-    src_ppmi = {}
-    tgt_ppmi = {}
+    write_original_sentences(target_fname)
+    x_src = reviews_contain_x(features_list(source_fname+'-sentences'),source_fname)
+    x_tgt = reviews_contain_x(features_list(target_fname+'-sentences'),target_fname)
+    x_total = combine_dicts(x_src,x_tgt)
+    features = set(features_list(source_fname+'-sentences')).union(set(features_list(target_fname+'-sentences')))
+    print len(features)
+
+    ppmi_dict={}
+    for x in features:
+        if x_total.get(x,0)*x_src.get(x,0)*x_tgt.get(x,0) > 0:
+            src_ppmi = ppmi(x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews) 
+            tgt_ppmi = ppmi(x_total.get(x,0), x_tgt.get(x,0), tgt_reviews, total_reviews)
+            ppmi_dict[x] = abs(ppmi(src_ppmi)-ppmi(tgt_ppmi))
+    L = ppmi_dict.items()
+    L.sort(lambda x, y: -1 if x[1] < y[1] else 1)
+    top_feats = [x for (x,ppmi) in L[:k]]
+    print top_feats, len(top_feats)
+
+    # read word ids and process
+    G = open("../data/%s/ppmi_coreness.dat"%domain,"w")
+    G.write("id \t coreness\n")
+    # wids = {}
+    wid_count = 0
+    with open("../data/word_ids") as wid_file:
+        for line in wid_file:
+            feat = line.strip()
+            # wids[feat] = wid_count        
+            coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
+            G.write("%d \t %d\n"%(wid_count,coreness))
+            wid_count += 1
+    G.close()
+
     pass
 
 # if domain adaptation?
@@ -143,16 +184,6 @@ def write_original_sentences(fname):
 
 # write separately original sentences to positive and negative
 def count_reviews(fname,opt):
-    F=open(fname+'-pos','w')
-    G=open(fname+'-neg','w')
-    for line in open(fname):
-        if line.strip().split(' ')[0]=='+1':
-            F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-        elif line.strip().split(' ')[0]=='-1':
-            G.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-    F.close()
-    G.close()
-
     count = 0
     if opt == "pos":
         count = len([line for line in open(fname) if line.strip().split(' ')[0]=='+1'])
@@ -161,7 +192,7 @@ def count_reviews(fname,opt):
         count = len([line for line in open(fname) if line.strip().split(' ')[0]=='-1'])
     else:
         count = len([line for line in open(fname)])
-    print count
+    return count
     pass
 
 def features_list(fname):
@@ -179,6 +210,18 @@ def reviews_contain_x(features, fname):
             i = features.index(x)
             feautres_vector[i] += 1
     return dict(zip(features,feautres_vector))
+
+def ppmi(joint_x, x_scale, y, N):
+    prob_y = float(y / N)
+    prob_x = float(joint_x / N)
+    prob_x_scale = float(x_scale / N)
+    val = float(prob_x_scale / (prob_x * prob_y))
+    return math.log(val) if math.log(val) > 0 else 0
+
+
+# method to combine dictionaries
+def combine_dicts(a, b):
+    return dict([(n, a.get(n, 0)+b.get(n, 0)) for n in set(a)|set(b)])
 
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
@@ -278,7 +321,7 @@ if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     domain = "TR"
-    compute_ppmi_coreness(domain)
+    compute_ppmi_coreness(domain,1000)
     # compute_freq_coreness(domain)
     # convert_cp_nonoverlap(domain)
     # convert_cp_overlap(domain)
