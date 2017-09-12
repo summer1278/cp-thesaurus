@@ -200,7 +200,7 @@ def count_reviews(fname,opt):
     pass
 
 def features_list(fname):
-    return list(set([word for line in open(fname) for word in line.split()]))
+    return list(set([word for line in open(fname) for word in line.split(',')]))
 
 def reviews_contain_x(features, fname):
     # for x in features:
@@ -211,7 +211,7 @@ def reviews_contain_x(features, fname):
     feautres_vector = numpy.zeros(len(features), dtype=float)
     for line in open(fname):
         print line
-        for x in set(line.strip().split()):
+        for x in set(line.strip().split(',')):
             i = features.index(x)
             feautres_vector[i] += 1
     return dict(zip(features,feautres_vector))
