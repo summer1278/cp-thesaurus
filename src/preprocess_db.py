@@ -117,6 +117,7 @@ def compute_ppmi_coreness(domain,k):
     ppmi_dict={}
     for x in features:
         if x_total.get(x,0)>0 and x_src.get(x,0) > 0 and x_tgt.get(x,0) > 0:
+            print x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews
             src_ppmi = ppmi(x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews) 
             tgt_ppmi = ppmi(x_total.get(x,0), x_tgt.get(x,0), tgt_reviews, total_reviews)
             ppmi_dict[x] = abs(src_ppmi-tgt_ppmi)
