@@ -103,9 +103,9 @@ def compute_ppmi_coreness(domain,k):
     # G.close()
     # count_reviews(source_fname,'pos')
     # count_reviews(source_fname,'neg')
-    src_reviews = count_reviews(source_fname,'all')
-    tgt_reviews = count_reviews(target_fname,'all')
-    total_reviews = src_reviews+tgt_reviews
+    src_reviews = float(count_reviews(source_fname,'all'))
+    tgt_reviews = float(count_reviews(target_fname,'all'))
+    total_reviews = float(src_reviews+tgt_reviews)
     write_original_sentences(source_fname)
     write_original_sentences(target_fname)
     x_src = reviews_contain_x(features_list(source_fname+'-sentences'),source_fname+'-sentences')
@@ -219,7 +219,6 @@ def ppmi(joint_x, x_scale, y, N):
     prob_y = float(y / N)
     prob_x = float(joint_x / N)
     prob_x_scale = float(x_scale / N)
-    print joint_x
     val = float(prob_x_scale / (prob_x * prob_y))
     return math.log(val) if math.log(val) > 0 else 0
 
