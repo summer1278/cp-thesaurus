@@ -201,7 +201,7 @@ def count_reviews(fname,opt):
     pass
 
 def features_list(fname):
-    return list(set([word for line in open(fname) for word in line.split(',')]))
+    return list(set([word for line in open(fname) for word in line.strip().split(',')]))
 
 def reviews_contain_x(features, fname):
     # for x in features:
