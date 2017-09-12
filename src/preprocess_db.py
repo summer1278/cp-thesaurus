@@ -109,7 +109,7 @@ def compute_ppmi_coreness(domain,k):
     write_original_sentences(source_fname)
     write_original_sentences(target_fname)
     features = set(features_list(source_fname+'-sentences')).union(set(features_list(target_fname+'-sentences')))
-    print features
+    # print features
     x_src = reviews_contain_x(features_list(source_fname+'-sentences'),source_fname+'-sentences')
     x_tgt = reviews_contain_x(features_list(target_fname+'-sentences'),target_fname+'-sentences')
     x_total = combine_dicts(x_src,x_tgt)
@@ -137,6 +137,7 @@ def compute_ppmi_coreness(domain,k):
             feat = line.strip()
             # wids[feat] = wid_count        
             coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
+            print wid_count,coreness
             G.write("%d \t %d\n"%(wid_count,coreness))
             wid_count += 1
     G.close()
