@@ -81,7 +81,7 @@ def compute_freq_coreness(domain):
             feat = line.strip()
             # wids[feat] = wid_count        
             coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
-            G.write("%d \t %d\n"%(wid_count,coreness))
+            G.write("%d \t %f\n"%(wid_count,coreness))
             wid_count += 1
     G.close()
     pass
@@ -141,7 +141,7 @@ def compute_ppmi_coreness(domain,k):
             if coreness >0:
                 print wid_count,coreness
                 nonzeros += 1
-            G.write("%d \t %d\n"%(wid_count,coreness))
+            G.write("%d \t %f\n"%(wid_count,coreness))
             wid_count += 1
     print nonzeros
     G.close()
