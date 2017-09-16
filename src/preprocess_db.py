@@ -237,7 +237,7 @@ def combine_dicts(a, b):
 # convert cp-nonoverlap results from kmcpp to
 # core,coreness,peri1,peri2... 
 # replace word_ids with words
-def convert_cp_nonoverlap(domain):
+def convert_cp_nonoverlap(domain,method):
     wids = {}
     wid_count = 0
     with open("../data/word_ids") as wid_file:
@@ -247,7 +247,7 @@ def convert_cp_nonoverlap(domain):
 
     cores = {}
     cp_pairs = []
-    F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
     # F = open("../../kmcpp/result.dat","r")
     next(F) # skip the first line of the read file
     for line in F:
@@ -270,7 +270,7 @@ def convert_cp_nonoverlap(domain):
     new_cores = {k: cores[k] for k in core_keys}
     # print new_cores
 
-    F = open("../data/%s/result_nonoverlap.dat"%domain,"r")
+    F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
     # F = open("../../kmcpp/result.dat","r")
     next(F)
     for line in F:
@@ -286,7 +286,7 @@ def convert_cp_nonoverlap(domain):
     coreness_list = get_coreness_list(domain)
 
     # write each core with coreness and its peris as a line
-    G = open("../data/%s/cpwords_nonoverlap.dat"%domain ,"w")
+    G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
         G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
@@ -301,7 +301,7 @@ def convert_cp_nonoverlap(domain):
 # convert cp-overlap results from kmcpp to
 # core,coreness,peri1,peri2...
 # replace word_ids with words
-def convert_cp_overlap(domain):
+def convert_cp_overlap(domain,method):
     wids = {}
     wid_count = 0
     with open("../data/word_ids") as wid_file:
@@ -311,7 +311,7 @@ def convert_cp_overlap(domain):
 
     new_cores = {}
     # cp_pairs = [] # in case there are multiple cores in the cp_pair
-    F = open("../data/%s/result_overlap.dat"%domain,"r")
+    F = open("../data/%s/result_%s_overlap.dat"%(domain,method),"r")
     # F = open("../../kmcpp/result_overlap.dat","r")
     next(F)
     for line in F:
@@ -322,7 +322,7 @@ def convert_cp_overlap(domain):
 
     coreness_list = get_coreness_list(domain)
 
-    G = open("../data/%s/cpwords_overlap.dat"%domain ,"w")
+    G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
         G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
@@ -359,8 +359,9 @@ if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     domain = "TR"
+    method = "ppmi"
     # compute_ppmi_coreness(domain,1000)
     # print get_coreness_list(domain)[:10]
     # compute_freq_coreness(domain)
     # convert_cp_nonoverlap(domain)
-    convert_cp_overlap(domain)
+    convert_cp_overlap(domain,method)
