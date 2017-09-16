@@ -349,7 +349,7 @@ def get_coreness_list(domain,wids):
     next(F)
     for line in F:
         p = line.strip().split()
-        coreness_list.append(wids.keys()[wids.values().index(int(p[0]))],float(p[1])))
+        coreness_list.append((wids.keys()[wids.values().index(int(p[0]))],float(p[1])))
     F.close()
 
     coreness_list.sort(lambda x, y: -1 if x[1] > y[1] else 1)
