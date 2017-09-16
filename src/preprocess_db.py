@@ -283,7 +283,7 @@ def convert_cp_nonoverlap(domain,method):
                 new_cores[temp_key]['peris'].append(int(p[0]))
     F.close()
 
-    coreness_list = get_coreness_list(domain)
+    coreness_list = get_coreness_list(domain,wids)
 
     # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
@@ -320,7 +320,8 @@ def convert_cp_overlap(domain,method):
     F.close()
     # print new_cores   
 
-    coreness_list = get_coreness_list(domain)
+    coreness_list = get_coreness_list(domain,wids)
+    print coreness_list
 
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
@@ -342,13 +343,13 @@ def sort_peris(peris_list,coreness_list):
     
     return new_peris
 
-def get_coreness_list(domain):
+def get_coreness_list(domain,wids):
     coreness_list = []
     F = open("../data/%s/ppmi_coreness.dat"%domain,"r")
     next(F)
     for line in F:
         p = line.strip().split()
-        coreness_list.append((int(p[0]),float(p[1])))
+        coreness_list.append((wids.values().index(int(p[0])),float(p[1])))
     F.close()
 
     coreness_list.sort(lambda x, y: -1 if x[1] > y[1] else 1)
