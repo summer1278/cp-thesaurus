@@ -321,7 +321,7 @@ def convert_cp_overlap(domain,method):
     # print new_cores   
 
     coreness_list = get_coreness_list(domain,wids)
-    print coreness_list
+    # print coreness_list
 
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
