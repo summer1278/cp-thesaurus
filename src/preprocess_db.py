@@ -335,11 +335,12 @@ def convert_cp_overlap(domain,method):
     pass
 
 # sort peris by coreness in decsending order
+# also assign the coreness at the same time
 def sort_peris(peris_list,coreness_list):
     new_peris = []
     for (word,coreness) in coreness_list:
         if word in peris_list:
-            new_peris.append(word)
+            new_peris.append(word+','+coreness)
     
     return new_peris
 
