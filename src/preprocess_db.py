@@ -340,7 +340,7 @@ def sort_peris(peris_list,coreness_list):
     new_peris = []
     for (word,coreness) in coreness_list:
         if word in peris_list:
-            new_peris.append(word+','+coreness)
+            new_peris.append(word+','+str(coreness))
     
     return new_peris
 
