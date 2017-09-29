@@ -365,5 +365,5 @@ if __name__ == '__main__':
     # compute_ppmi_coreness(domain,1000)
     # print get_coreness_list(domain)[:10]
     # compute_freq_coreness(domain)
-    # convert_cp_nonoverlap(domain)
-    convert_cp_overlap(domain,method)
+    convert_cp_nonoverlap(domain,method)
+    # convert_cp_overlap(domain,method)
