@@ -74,6 +74,7 @@ class CP_EXPANDER():
             for line in CP_file:
                 p = line.strip().split()
                 core = p[0]
+                print core
                 self.wid.setdefault(core, len(self.wid))
                 self.D[self.wid[core]] = {"coreness":float(p[1]), "peris":[]}
                 for x in p[2:]:
@@ -344,7 +345,7 @@ def main():
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = CP_EXPANDER()
-        dict_name ="/%s/cpwords_ppmi_overlap.dat"%dataset
+        dict_name ="%s/cpwords_ppmi_overlap.dat"%dataset
         res_file = open("../work/%s-expansion.csv" % dict_name, 'w')
         res_file.write("dataset, k, l2, train_acc, test_acc\n")
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
