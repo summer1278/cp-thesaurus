@@ -335,14 +335,18 @@ def non_expansion(CP, res_file, dataset):
 def main():
     #dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
-    dict_name = sys.argv[1]
-    res_file = open("../work/%s-batchres-v2.csv" % dict_name, 'w')
-    res_file.write("dataset, k, l2, train_acc, test_acc\n")
+    
+    # dict_name = sys.argv[1]
+    # res_file = open("../work/%s-batchres.csv" % dict_name, 'w')
+    # res_file.write("dataset, k, l2, train_acc, test_acc\n")
 
     datasets = ["TR"]
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = CP_EXPANDER()
+        dict_name ="/%s/cpwords_ppmi_overlap.dat"%dataset
+        res_file = open("../work/%s-expansion.csv" % dict_name, 'w')
+        res_file.write("dataset, k, l2, train_acc, test_acc\n")
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
         batch_process(CP, res_file, dataset)
         #non_expansion(CP, res_file, dataset)
