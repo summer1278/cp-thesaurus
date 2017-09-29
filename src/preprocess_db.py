@@ -288,7 +288,7 @@ def convert_cp_nonoverlap(domain,method):
     # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
-        G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        G.write("%s %f "%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
         peris = sort_peris(temp_peris,coreness_list)
@@ -325,7 +325,7 @@ def convert_cp_overlap(domain,method):
 
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
-        G.write("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        G.write("%s %f "%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
         peris = sort_peris(temp_peris,coreness_list)
