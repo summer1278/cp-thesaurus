@@ -72,7 +72,7 @@ class CP_EXPANDER():
         self.wid = {}
         with open(CP_fname) as CP_file:
             for line in CP_file:
-                p = line.strip().split(',')
+                p = line.strip().split()
                 core = p[0]
                 print core
                 self.wid.setdefault(core, len(self.wid))

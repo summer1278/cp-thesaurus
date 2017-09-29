@@ -283,19 +283,21 @@ def convert_cp_nonoverlap(domain,method):
                 new_cores[temp_key]['peris'].append(int(p[0]))
     F.close()
 
-    coreness_list = get_coreness_list(domain,wids)
+    print "loading ppmi.values.."
+    h = get_h()
 
     # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
-        G.write("%s %f "%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        source = wids.keys()[wids.values().index(core)]
+        print '===='+source+'===='
+        G.write("%s %f "%(source,new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
-        peris = sort_peris(temp_peris,coreness_list)
-        G.write('%s\n'%','.join(peris))
+        peris = sort_peris(temp_peris,source,h)
+        G.write('%s\n'%' '.join(peris))
         # print ('%s\n'%','.join(peris))
-
-    G.close()
+    G.close() 
     pass
 
 # convert cp-overlap results from kmcpp to
@@ -319,42 +321,64 @@ def convert_cp_overlap(domain,method):
         new_cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1]),"peris":map(int,p[3:])}
     F.close()
     # print new_cores   
-
-    coreness_list = get_coreness_list(domain,wids)
-    # print coreness_list
+    print "loading ppmi.values.."
+    h = get_h()
 
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
-        G.write("%s %f "%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
+        source = wids.keys()[wids.values().index(core)]
+        print '===='+source+'===='
+        G.write("%s %f "%(source,new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
-        peris = sort_peris(temp_peris,coreness_list)
-        G.write('%s\n'%','.join(peris))
+        peris = sort_peris(temp_peris,source,h)
+        G.write('%s\n'%' '.join(peris))
         # print ('%s\n'%','.join(peris))
     G.close() 
     pass
 
 # sort peris by coreness in decsending order
 # also assign the coreness at the same time
-def sort_peris(peris_list,coreness_list):
-    new_peris = []
-    for (word,coreness) in coreness_list:
-        if word in peris_list:
-            new_peris.append(word+','+str(coreness))
+def sort_peris(peris_list,source,h):
+    # new_peris = []
+    peris_vals = []
+    for peri in peris_list:
+        if (source, peri) in h:
+            val = h[(source, peri)]
+            peris_vals.append((peri,val))
+        elif (peri, source) in h:
+            val = h[(peri, source)]
+            peris_vals.append((peri,val))
+        else:
+            print "skip %s,%s" %(source,peri)
+    peris_vals.sort(lambda x, y: -1 if x[1] > y[1] else 1)
+    new_peris = [peri+','+str(val) for (peri,val) in peris_vals]
+    # for (word,coreness) in coreness_list:
+    #     if word in peris_list:
+    #         new_peris.append(word+','+str(coreness)+' ')
     
     return new_peris
 
-def get_coreness_list(domain,wids):
-    coreness_list = []
-    F = open("../data/%s/ppmi_coreness.dat"%domain,"r")
-    next(F)
-    for line in F:
-        p = line.strip().split()
-        coreness_list.append((wids.keys()[wids.values().index(int(p[0]))],float(p[1])))
-    F.close()
+# def get_coreness_list(domain,wids):
+#     coreness_list = []
+#     F = open("../data/%s/bigram_coreness.dat"%domain,"r")
+#     next(F)
+#     for line in F:
+#         p = line.strip().split()
+#         coreness_list.append((wids.keys()[wids.values().index(int(p[0]))],float(p[1])))
+#     F.close()
 
-    coreness_list.sort(lambda x, y: -1 if x[1] > y[1] else 1)
-    return coreness_list
+#     coreness_list.sort(lambda x, y: -1 if x[1] > y[1] else 1)
+#     return coreness_list
+
+def get_h():
+    ppmi_fname = "../data/ppmi.values"
+    h = {}
+    with open(ppmi_fname) as ppmi_file:
+        for line in ppmi_file:
+            p = line.strip().split()
+            h[(p[0], p[1])] = float(p[2])
+    return h
 
 
 if __name__ == '__main__':
