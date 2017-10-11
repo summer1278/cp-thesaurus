@@ -2,8 +2,8 @@
 core-peri thesaurus for feature expansion
 
 ## preprocess
-- ```word_ids_generator()```: generate word_ids in ../data/
-- ```compute_links()```: generate and store ppmi_links in ../data/ (requires: word_ids, ppmi.values)
+- ```word_ids_generator()```: generate word_ids in ```../data/```
+- ```compute_links()```: generate and store ppmi_links in ```../data/``` (requires: word_ids, ppmi.values)
 - ```compute_freq_coreness(domain)```: in-domain frequency as coreness for train and test data (requires: train, test in label-sentence format) (requires: word_ids)
 - ```compute_ppmi_coreness(domain)```: same as above but generate ppmi as coreness (requires: word_ids)
 - ```convert_cp_nonoverlap(domain,method)```: convert km results to ```core coreness peri1,score1,peri2,score2,..```, ids replaced with words
