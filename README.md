@@ -16,8 +16,8 @@ Pre-computed:
 
 - ```../data/ppmi.values```
 - ```../data/word_ids```: generated from word_ids_generator()
-- ```../data/domain/result_method_overlap.dat```: generated from km
-- ```../data/domain/result_method_nonoverlap.dat```: generated from km_overlap
+- ```../data/domain/result_method_overlap.dat```: generated from km_overlap
+- ```../data/domain/result_method_nonoverlap.dat```: generated from km
 
 
 ### TO RUN
