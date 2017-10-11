@@ -235,7 +235,7 @@ def combine_dicts(a, b):
     return dict([(n, a.get(n, 0)+b.get(n, 0)) for n in set(a)|set(b)])
 
 # convert cp-nonoverlap results from kmcpp to
-# core,coreness,peri1,peri2... 
+# core coreness peri1,periscore1,peri2...
 # replace word_ids with words
 def convert_cp_nonoverlap(domain,method):
     wids = {}
@@ -301,7 +301,7 @@ def convert_cp_nonoverlap(domain,method):
     pass
 
 # convert cp-overlap results from kmcpp to
-# core,coreness,peri1,peri2...
+# core coreness peri1,periscore1,peri2...
 # replace word_ids with words
 def convert_cp_overlap(domain,method):
     wids = {}
