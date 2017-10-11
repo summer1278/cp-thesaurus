@@ -1,7 +1,7 @@
 # cp-thesaurus
 core-peri thesaurus for feature expansion
 
-## preprocess
+## preprocess.py
 - ```word_ids_generator()```: generate ```word_ids``` in ```../data/```
 - ```compute_links()```: generate and store ```ppmi_links``` in ```../data/``` (requires: ```word_ids```, ```ppmi.values```)
 - ```compute_freq_coreness(domain)```: in-domain frequency as coreness for train and test data (requires: ```train```, ```test``` in label-sentence format, and ```word_ids```)
@@ -30,3 +30,5 @@ Outputs:
 packages: ```numpy```, ```math```
 
 specify ```domain``` and ```method```, then uncomment functions in ```main()``` (e.g. ```domain = "TR", method = "ppmi"```)
+
+```python preprocess.py``` 
