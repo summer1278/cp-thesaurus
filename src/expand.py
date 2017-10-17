@@ -345,7 +345,7 @@ def main():
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     for dataset in datasets:
         CP = CP_EXPANDER()
-        dict_name ="%s/cpwords_ppmi_overlap.dat"%dataset
+        dict_name ="%s/cpwords_ppmi_nonoverlap.dat"%dataset
         res_file = open("../work/%s-expansion.csv" % dict_name, 'w')
         res_file.write("dataset, k, l2, train_acc, test_acc\n")
         CP.load_CP_Dictionary("../data/%s" % dict_name, 100)
