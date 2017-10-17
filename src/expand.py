@@ -315,8 +315,8 @@ class CP_EXPANDER():
 def batch_process(CP, res_file, dataset): 
     print dataset 
     res_file.write("%s\n" % dataset)
-    kvals = [100]
-    #kvals =  [10, 100, 500, 1000]
+    # kvals = [100]
+    kvals =  [10, 100, 500, 1000]
     for k in kvals:
         l2, train_acc, test_acc = CP.evaluate("../data/%s" % dataset, k)
         res_file.write(", %d, %f, %f, %f\n" % (k, l2, train_acc, test_acc))
