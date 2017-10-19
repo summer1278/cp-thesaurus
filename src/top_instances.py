@@ -325,9 +325,12 @@ def main():
     # for dataset in datasets:
     for k in kvals:
         CP = expand.CP_EXPANDER()
-        CP.load_CP_Dictionary("../data/%s" % dict_name, k)
         
+        CP.load_CP_Dictionary("../data/%s" % dict_name, k)
+
         fname = "../work/%d/%s-%s-%s-%d" % (opt,dataset,dict_name,method,k)
+        if "/" in dict_name:
+            fname = "../work/%s-%s-%s-%d" % (opt,dict_name,method,k)
         res_file = open("%s-words"%fname, 'w')
         if method == "projection":
             test_acc=batch_projection(CP, res_file, dataset, k, fname,opt)
