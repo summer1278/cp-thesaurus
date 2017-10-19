@@ -328,9 +328,10 @@ def main():
         
         CP.load_CP_Dictionary("../data/%s" % dict_name, k)
 
-        fname = "../work/%d/%s-%s-%s-%d" % (opt,dataset,dict_name,method,k)
         if "/" in dict_name:
-            fname = "../work/%s-%s-%s-%d" % (opt,dict_name,method,k)
+            dict_name = dict_name.replace('%s/'%dataset,"")
+        fname = "../work/%d/%s-%s-%s-%d" % (opt,dataset,dict_name,method,k)
+
         res_file = open("%s-words"%fname, 'w')
         if method == "projection":
             test_acc=batch_projection(CP, res_file, dataset, k, fname,opt)
