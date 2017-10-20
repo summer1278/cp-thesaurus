@@ -90,19 +90,6 @@ def compute_ppmi_coreness(domain,k):
     source_fname = "../data/%s/train"%domain
     target_fname = "../data/%s/test"%domain
 
-    # source labelled
-    # fname = source_fname
-    # F=open(fname+'-pos','w')
-    # G=open(fname+'-neg','w')
-    # for line in open(fname):
-    #     if line.strip().split(' ')[0]=='+1':
-    #         F.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-    #     elif line.strip().split(' ')[0]=='-1':
-    #         G.write("%s\n" % ','.join([word.replace(':1','') for word in line.strip().split(' ')[1:]]))
-    # F.close()
-    # G.close()
-    # count_reviews(source_fname,'pos')
-    # count_reviews(source_fname,'neg')
     src_reviews = float(count_reviews(source_fname,'all'))
     tgt_reviews = float(count_reviews(target_fname,'all'))
     total_reviews = float(src_reviews+tgt_reviews)
@@ -148,33 +135,83 @@ def compute_ppmi_coreness(domain,k):
 
     pass
 
-# if domain adaptation?
-def compute_coreness_DA(source,target):
-    source_fname = "../data/%s/train"%source
-    target_fname = "../data/%s/train"%target
-    write_original_sentences(source_fname)
-    write_original_sentences(target_fname)
-    src_freq = {}
-    tgt_freq = {}
-    count_freq(source_fname,src_freq)
-    count_freq(target_fname,tgt_freq)
-    # s = {}
-    F=open("../data/word_ids","r")
-    words = [line[:-1] for line in F]
-    F.close()
-    features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
-    G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
-    G.write("id \t coreness\n")
-    wid_count = 0
-    with open("../data/word_ids") as wid_file:
-        for line in wid_file:
-            feat = line.strip()
-            # wids[feat] = wid_count        
-            coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
-            G.write("%d \t %d\n"%(wid_count,coreness))
-            wid_count += 1
-    G.close()
-    pass
+# # if domain adaptation?
+# def compute_ppmi_coreness_DA(source,target,k):
+#     source_fname = "../data/%s/train"%source
+#     target_fname = "../data/%s/test"%target
+
+#     src_reviews = float(count_reviews(source_fname,'all'))
+#     tgt_reviews = float(count_reviews(target_fname,'all'))
+#     total_reviews = float(src_reviews+tgt_reviews)
+#     write_original_sentences(source_fname)
+#     write_original_sentences(target_fname)
+#     features = set(features_list(source_fname+'-sentences')).union(set(features_list(target_fname+'-sentences')))
+#     # print features
+#     x_src = reviews_contain_x(features_list(source_fname+'-sentences'),source_fname+'-sentences')
+#     x_tgt = reviews_contain_x(features_list(target_fname+'-sentences'),target_fname+'-sentences')
+#     x_total = combine_dicts(x_src,x_tgt)
+    
+
+#     ppmi_dict={}
+#     for x in features:
+#         if x_total.get(x,0) > 0 and x_src.get(x,0) > 0 and x_tgt.get(x,0) > 0:
+#             # print x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews
+#             src_ppmi = ppmi(x_total.get(x,0), x_src.get(x,0), src_reviews, total_reviews) 
+#             tgt_ppmi = ppmi(x_total.get(x,0), x_tgt.get(x,0), tgt_reviews, total_reviews)
+#             ppmi_dict[x] = (src_ppmi-tgt_ppmi)**2
+#     L = ppmi_dict.items()
+#     L.sort(lambda x, y: -1 if x[1] > y[1] else 1)
+#     top_feats = [x for (x,val) in L[:k]]
+#     print top_feats, len(top_feats)
+
+#     # read word ids and process
+#     G = open("../data/%s-%s-ppmi_coreness.dat"%(source,target),"w")
+#     G.write("id \t coreness\n")
+#     # wids = {}
+#     wid_count = 0
+#     nonzeros = 0
+#     with open("../data/word_ids") as wid_file:
+#         for line in wid_file:
+#             feat = line.strip()
+#             # wids[feat] = wid_count        
+#             coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
+#             if coreness >0:
+#                 print wid_count,coreness
+#                 nonzeros += 1
+#             G.write("%d \t %f\n"%(wid_count,coreness))
+#             wid_count += 1
+#     print nonzeros
+#     G.close()
+
+#     pass
+
+# # if domain adaptation?
+# def compute_coreness_DA(source,target):
+#     source_fname = "../data/%s/train"%source
+#     target_fname = "../data/%s/train"%target
+#     write_original_sentences(source_fname)
+#     write_original_sentences(target_fname)
+#     src_freq = {}
+#     tgt_freq = {}
+#     count_freq(source_fname,src_freq)
+#     count_freq(target_fname,tgt_freq)
+#     # s = {}
+#     F=open("../data/word_ids","r")
+#     words = [line[:-1] for line in F]
+#     F.close()
+#     features = (set(src_freq.keys()) | set(tgt_freq.keys()))| set(words)
+#     G = open("../data/%s-%s/freq_coreness.dat"%(source,target),"w")
+#     G.write("id \t coreness\n")
+#     wid_count = 0
+#     with open("../data/word_ids") as wid_file:
+#         for line in wid_file:
+#             feat = line.strip()
+#             # wids[feat] = wid_count        
+#             coreness = min(src_freq.get(feat, 0), tgt_freq.get(feat, 0))
+#             G.write("%d \t %d\n"%(wid_count,coreness))
+#             wid_count += 1
+#     G.close()
+#     pass
 
 # count frequency and return a dict h
 def count_freq(fname, h):
@@ -384,10 +421,11 @@ def get_h():
 if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
-    domain = "TR"
-    method = "ppmi"
-    # compute_ppmi_coreness(domain,1000)
+    # domain = "TR"
+    # method = "ppmi"
+    domain = "B-D"
+    compute_ppmi_coreness(domain,1000)
     # print get_coreness_list(domain)[:10]
     # compute_freq_coreness(domain)
-    convert_cp_nonoverlap(domain,method)
+    # convert_cp_nonoverlap(domain,method)
     # convert_cp_overlap(domain,method)
