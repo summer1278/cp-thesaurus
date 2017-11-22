@@ -417,7 +417,6 @@ def get_h():
             h[(p[0], p[1])] = float(p[2])
     return h
 
-
 if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
