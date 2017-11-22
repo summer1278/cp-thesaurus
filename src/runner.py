@@ -41,6 +41,7 @@ if __name__ == '__main__':
         # if ppmi corenesss is not generated, create it before we run 
         if not check_file_exists("../data/%s/ppmi_coreness.dat"%domain):
             # compute_ppmi_coreness(domain)
+            print "ppmi computed"
         if option == 'nonoverlap':
             runner_nonoverlap(domain)
         elif option == "overlap":
