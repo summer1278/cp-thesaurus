@@ -17,6 +17,8 @@ def compute_ppmi_coreness(domain):
 
 def runner_nonoverlap(domain):
     # run km (nonoverlap)
+    print 'time ../../kmcpp/./km ../cp-thesaurus/data/ppmi_links.dat \
+        ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_overlap.dat 100 1 10'%(domain,domain)
     call('time ../../kmcpp/./km ../cp-thesaurus/data/ppmi_links.dat \
         ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_overlap.dat 100 1 10'%(domain,domain))
     preprocess.convert_cp_nonoverlap(domain,'ppmi')
