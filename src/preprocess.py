@@ -364,7 +364,7 @@ def convert_cp_overlap(domain,method):
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for core in new_cores:
         source = wids.keys()[wids.values().index(core)]
-        print '===='+source+'===='
+        # print '===='+source+'===='
         G.write("%s %f "%(source,new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
@@ -423,8 +423,8 @@ if __name__ == '__main__':
     # compute_links()
     # domain = "TR"
     # method = "ppmi"
-    domain = "B-D"
-    compute_ppmi_coreness(domain,1000)
+    # domain = sys.argv[1]
+    # compute_ppmi_coreness(domain,1000)
     # print get_coreness_list(domain)[:10]
     # compute_freq_coreness(domain)
     # convert_cp_nonoverlap(domain,method)
