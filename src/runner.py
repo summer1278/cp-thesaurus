@@ -35,7 +35,7 @@ def check_file_exists(fname):
     return os.path.isfile(fname)
 
 if __name__ == '__main__':
-    if sys.argv[1] and sys.argv[2]:
+    if len(sys.argv) > 2:
         option = sys.argv[1]
         domain = sys.argv[2]
         # if ppmi corenesss is not generated, create it before we run 
