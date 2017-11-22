@@ -9,6 +9,7 @@ import preprocess
 import expand
 import os.path
 from subprocess import call
+import sys
 
 def compute_ppmi_coreness(domain):
     preprocess.compute_ppmi_coreness(domain,1000)
