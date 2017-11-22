@@ -19,14 +19,14 @@ def runner_nonoverlap(domain):
     # run km (nonoverlap)
     call('time ../../kmcpp/./km ../data/ppmi_links.dat ../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_nonoverlap.dat 100 1 10'%(domain,domain), shell=True)
     preprocess.convert_cp_nonoverlap(domain,'ppmi')
-    expand.main(domain)
+    expand.main(domain,'nonoverlap')
     pass
 
 def runner_overlap(domain):
     # run km_overlap
-    call('time ../../kmcpp/./km_overlap ../data/ppmi_links.dat ../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_overlap.dat 10'%(domain,domain), shell=True)
-    preprocess.convert_cp_overlap(domain,'ppmi')
-    expand.main(domain)
+    # call('time ../../kmcpp/./km_overlap ../data/ppmi_links.dat ../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_overlap.dat 10'%(domain,domain), shell=True)
+    # preprocess.convert_cp_overlap(domain,'ppmi')
+    expand.main(domain,'overlap')
     pass
 
 def check_file_exists(fname):
@@ -38,7 +38,7 @@ if __name__ == '__main__':
         domain = sys.argv[2]
         # if ppmi corenesss is not generated, create it before we run 
         if not check_file_exists("../data/%s/ppmi_coreness.dat"%domain):
-            compute_ppmi_coreness(domain)
+            # compute_ppmi_coreness(domain)
             print "ppmi computed"
         if option == 'nonoverlap':
             runner_nonoverlap(domain)

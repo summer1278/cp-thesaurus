@@ -333,7 +333,7 @@ def non_expansion(CP, res_file, dataset):
     pass
 
 
-def main(dataset):
+def main(dataset,option):
     #dict_name = "cp-overalp.ppmi"
     #dict_name = "PMI-thesaurus"
     
@@ -345,7 +345,7 @@ def main(dataset):
     # datasets = ["TR", "CR", "SUBJ","MR", "B-D", "B-E", "B-K", "D-B", "D-E", "D-K", "E-B", "E-D", "E-K", "K-B", "K-D", "K-E"]
     #for dataset in datasets:
     CP = CP_EXPANDER()
-    dict_name ="%s/cpwords_ppmi_overlap.dat"%dataset
+    dict_name ="%s/cpwords_ppmi_%s.dat"%(dataset,option)
     if not os.path.exists("../work/%s"%dataset):
         os.makedirs("../work/%s"%dataset)
     res_file = open("../work/%s-expansion.csv" % dict_name, 'w')
