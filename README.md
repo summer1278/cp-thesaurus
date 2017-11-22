@@ -32,3 +32,21 @@ packages: ```numpy```, ```math```
 specify ```domain``` and ```method```, then uncomment functions in ```main()``` (e.g. ```domain = "TR", method = "ppmi"```)
 
 ```python preprocess.py``` 
+
+## runner.py
+script for automatically running step by step
+1. compute ppmi values
+2. km (nonoverlap) or km_overlap
+3. convert cp result to words version and add the ppmi values to them
+4. use 3 to expand the features and calculate the experimental results
+
+### Required Files
+- kmcpp code: ```../../kmcpp```
+- word_ids:```../data/word_ids``` (if not, you can generate from preprocess.py)
+- train and test data: ```../data/domain/train``` and ```../data/domain/test```
+
+### TO RUN
+from ```~/python/cp-thesaurus/src```
+- USAGE: ```python runner.py <option:overlap or nonoverlap> <dataset or domain>```
+- example: ```python runner.py overlap B-D```
+- example: ```python runner.py nonoverlap TR```
