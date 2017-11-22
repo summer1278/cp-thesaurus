@@ -2,7 +2,7 @@
 Script for running km and cp in together
 
 Xia Cui
-Novermber
+Novermber 2017
 """
 
 import preprocess
@@ -18,7 +18,7 @@ def compute_ppmi_coreness(domain):
 def runner_nonoverlap(domain):
     # run km (nonoverlap)
     call('time ../../kmcpp/./km ../cp-thesaurus/data/ppmi_links.dat \
-        ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_overlap.dat 100 1 10'%(domain,domain))
+        ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_nonoverlap.dat 100 1 10'%(domain,domain))
     preprocess.convert_cp_nonoverlap(domain,'ppmi')
     expand.main(domain)
     pass
