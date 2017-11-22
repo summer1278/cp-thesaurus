@@ -4,7 +4,7 @@ Script for running km and cp in together
 Xia Cui
 Novermber
 """
-import prerocess
+import preprocess
 import expand
 import os.path
 from subprocess import call
