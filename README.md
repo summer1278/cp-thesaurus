@@ -42,7 +42,8 @@ script for automatically running step by step
 
 ### Required Files
 - kmcpp code: ```../../kmcpp```
-- word_ids:```../data/word_ids``` (if not, you can generate from preprocess.py)
+- word_ids:```../data/word_ids``` (if not, you can generate from ```preprocess.py```)
+- ppmi_links:```../data/ppmi_links.dat``` (if not you can generate from ```preprocess.py```)
 - train and test data: ```../data/domain/train``` and ```../data/domain/test```
 
 ### TO RUN
