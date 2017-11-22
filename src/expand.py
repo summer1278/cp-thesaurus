@@ -74,7 +74,7 @@ class CP_EXPANDER():
             for line in CP_file:
                 p = line.strip().split()
                 core = p[0]
-                print core
+                # print core
                 self.wid.setdefault(core, len(self.wid))
                 self.D[self.wid[core]] = {"coreness":float(p[1]), "peris":[]}
                 for x in p[2:]:
