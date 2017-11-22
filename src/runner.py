@@ -35,7 +35,7 @@ def check_file_exists(fname):
     return os.path.isfile(fname)
 
 if __name__ == '__main__':
-    try:
+    if sys.argv[1] and sys.argv[2]:
         option = sys.argv[1]
         domain = sys.argv[2]
         # if ppmi corenesss is not generated, create it before we run 
@@ -47,11 +47,6 @@ if __name__ == '__main__':
             runner_overlap(domain)
         else:
             print "usage:<option:overlap or nonoverlap> <dataset or domain>"
-    except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
-    except ValueError:
-        print "Could not convert data to an integer."
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-        raise
+    else:
+        print "usage:<option:overlap or nonoverlap> <dataset or domain>"
     pass
