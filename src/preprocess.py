@@ -422,7 +422,7 @@ if __name__ == '__main__':
     # word_ids_generator()
     # compute_links()
     # domain = "TR"
-    # method = "ppmi"
+    method = "ppmi"
     # domain = sys.argv[1]
     # compute_ppmi_coreness(domain,1000)
     # print get_coreness_list(domain)[:10]
