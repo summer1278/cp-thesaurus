@@ -17,16 +17,16 @@ def compute_ppmi_coreness(domain):
 
 def runner_nonoverlap(domain):
     # run km (nonoverlap)
-    call('time ../../kmcpp/./km ../cp-thesaurus/data/ppmi_links.dat \
-        ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_nonoverlap.dat 100 1 10'%(domain,domain))
+    call('time ../../kmcpp/./km ../data/ppmi_links.dat '+\
+        '../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_nonoverlap.dat 100 1 10'%(domain,domain))
     preprocess.convert_cp_nonoverlap(domain,'ppmi')
     expand.main(domain)
     pass
 
 def runner_overlap(domain):
     # run km_overlap
-    call('time ../../kmcpp/./km_overlap ../cp-thesaurus/data/ppmi_links.dat \
-        ../cp-thesaurus/data/%s/ppmi_coreness.dat ../cp-thesaurus/data/%s/result_ppmi_overlap.dat 10'%(domain,domain))
+    call('time ../../kmcpp/./km_overlap ../data/ppmi_links.dat '+\
+        '../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_overlap.dat 10'%(domain,domain))
     preprocess.convert_cp_overlap(domain,'ppmi')
     expand.main(domain)
     pass
