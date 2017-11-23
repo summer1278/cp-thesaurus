@@ -112,7 +112,7 @@ def compute_ppmi_coreness(domain,k):
     L = ppmi_dict.items()
     L.sort(lambda x, y: -1 if x[1] > y[1] else 1)
     top_feats = [x for (x,val) in L[:k]]
-    print top_feats, len(top_feats)
+    # print top_feats, len(top_feats)
 
     # read word ids and process
     G = open("../data/%s/ppmi_coreness.dat"%domain,"w")
@@ -126,13 +126,12 @@ def compute_ppmi_coreness(domain,k):
             # wids[feat] = wid_count        
             coreness = ppmi_dict.get(feat,0) if feat in top_feats else 0
             if coreness >0:
-                print wid_count,coreness
+                # print wid_count,coreness
                 nonzeros += 1
             G.write("%d \t %f\n"%(wid_count,coreness))
             wid_count += 1
     print nonzeros
     G.close()
-
     pass
 
 # # if domain adaptation?
