@@ -259,10 +259,10 @@ def reviews_contain_x(features, fname):
     return dict(zip(features,feautres_vector))
 
 def ppmi(joint_x, x_scale, y, N):
-    prob_y = float(y / N)
-    prob_x = float(joint_x / N)
-    prob_x_scale = float(x_scale / N)
-    val = float(prob_x_scale / (prob_x * prob_y))
+    prob_y = float(y) / float(N)
+    prob_x = float(joint_x) / float(N)
+    prob_x_scale = float(x_scale) / float(N)
+    val = float(prob_x_scale) / float(prob_x * prob_y)
     return math.log(val) if math.log(val) > 0 else 0
 
 
