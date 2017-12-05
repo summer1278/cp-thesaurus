@@ -320,14 +320,14 @@ def convert_cp_nonoverlap(domain,method):
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
     F.close()
-    
+
     h = get_h(word2id)
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
         source = id2word[core]
         coreness = new_cores[core]['coreness']
         G.write("%s %f "%(source,coreness))
-        # temp_peris = [peri for peri in old_peris]
+        old_peris = new_cores[core]['peris']
         peris = sort_peris(old_peris,core,h,id2word)
         G.write('%s\n'%' '.join(peris))
     G.close() 
