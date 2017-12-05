@@ -282,13 +282,13 @@ def convert_cp_nonoverlap(domain,method):
             w = line.strip()
             word2id[w] = count
             id2word[count] = w
-            count+=1
+            count += 1
 
     cores = {}
     cp_pairs = []
     F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
-    # F = open("../../kmcpp/result.dat","r")
     next(F) # skip the first line of the read file
+
     for line in F:
         p = line.strip().split()
         cp_pairs.append(int(p[1]))
@@ -321,19 +321,60 @@ def convert_cp_nonoverlap(domain,method):
                 new_cores[temp_key]['peris'].append(int(p[0]))
     F.close()
 
-    print "loading ppmi.values.."
-    h = get_h(word2id)
-
-    # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
-        source = wids.keys()[wids.values().index(core)]
-        G.write("%s %f "%(source,new_cores[core]['coreness']))
-        temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
-        peris = sort_peris(temp_peris,source,h)
+        source = id2word[core]
+        coreness = new_cores[core]['coreness']
+        G.write("%s %f "%(source,coreness))
+        # temp_peris = [peri for peri in old_peris]
+        peris = sort_peris(old_peris,core,h,id2word)
         G.write('%s\n'%' '.join(peris))
-        # print ('%s\n'%','.join(peris))
     G.close() 
+    # for line in F:
+    #     p = line.strip().split()
+    #     cp_pairs.append(int(p[1]))
+    #     if int(p[3])==1:
+    #         cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1]),"peris":[]}
+    # F.close()
+
+    # core_keys=[]
+    # for cp_pair in set(cp_pairs):
+    #     h = [value['coreness'] for value in cores.values() if value['cp_pair']==cp_pair]
+    #     if h:
+    #         core_key = cores.keys()[[idx for idx,value in enumerate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']==max(h)][0]]
+    #         core_keys.append(core_key)
+
+    # print len(core_keys),len(set(cp_pairs))
+
+    # # only use max(coreness) as core
+    # new_cores = {k: cores[k] for k in core_keys}
+    # # print new_cores
+
+    # F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
+    # next(F)
+    # for line in F:
+    #     p =line.strip().split()
+    #     if int(p[0]) not in core_keys:
+    #         h = [idx for idx,value in enumerate(new_cores.values()) if value['cp_pair']==int(p[1])]
+    #         # print h
+    #         if h:
+    #             temp_key = new_cores.keys()[h[0]]
+    #             new_cores[temp_key]['peris'].append(int(p[0]))
+    # F.close()
+
+    # print "loading ppmi.values.."
+    # h = get_h(word2id)
+
+    # # write each core with coreness and its peris as a line
+    # G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
+    # for core in new_cores:
+    #     source = wids.keys()[wids.values().index(core)]
+    #     G.write("%s %f "%(source,new_cores[core]['coreness']))
+    #     temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
+    #     peris = sort_peris(temp_peris,source,h)
+    #     G.write('%s\n'%' '.join(peris))
+    #     # print ('%s\n'%','.join(peris))
+    # G.close() 
     pass
 
 # convert cp-overlap results from kmcpp to
@@ -348,9 +389,9 @@ def convert_cp_overlap(domain,method):
             w = line.strip()
             word2id[w] = count
             id2word[count] = w
-            count+=1
+            count += 1
 
-    new_cores = {}
+    # new_cores = {}
     # cp_pairs = [] # in case there are multiple cores in the cp_pair
     F = open("../data/%s/result_%s_overlap.dat"%(domain,method),"r")
     next(F)
@@ -374,8 +415,8 @@ def convert_cp_overlap(domain,method):
 # sort peris by coreness in decsending order
 # also assign the coreness at the same time
 def sort_peris(peris_list,source,h,id2word):
-    # new_peris = []
     peris_vals = []
+    print peris_list
     for peri in peris_list:
         if (source, peri) in h:
             val = h[(source, peri)]
