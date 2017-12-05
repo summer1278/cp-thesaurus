@@ -271,15 +271,17 @@ def combine_dicts(a, b):
     return dict([(n, a.get(n, 0)+b.get(n, 0)) for n in set(a)|set(b)])
 
 # convert cp-nonoverlap results from kmcpp to
-# core coreness peri1,periscore1,peri2...
+# core coreness peri1,periscore1 peri2...
 # replace word_ids with words
 def convert_cp_nonoverlap(domain,method):
-    wids = {}
-    wid_count = 0
+    word2id = {}
+    id2word = {}
+    count = 0
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
-            wids[line.strip()] = wid_count
-            wid_count += 1
+            w = line.strip()
+            word2id[w] = count
+            id2word[count] = w
 
     cores = {}
     cp_pairs = []
@@ -327,7 +329,6 @@ def convert_cp_nonoverlap(domain,method):
     for core in new_cores:
         source = wids.keys()[wids.values().index(core)]
         G.write("%s %f "%(source,new_cores[core]['coreness']))
-        # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
         peris = sort_peris(temp_peris,source,h)
         G.write('%s\n'%' '.join(peris))
@@ -336,7 +337,7 @@ def convert_cp_nonoverlap(domain,method):
     pass
 
 # convert cp-overlap results from kmcpp to
-# core coreness peri1,periscore1,peri2...
+# core coreness peri1,periscore1 peri2...
 # replace word_ids with words
 def convert_cp_overlap(domain,method):
     word2id = {}
@@ -351,7 +352,6 @@ def convert_cp_overlap(domain,method):
     new_cores = {}
     # cp_pairs = [] # in case there are multiple cores in the cp_pair
     F = open("../data/%s/result_%s_overlap.dat"%(domain,method),"r")
-    # F = open("../../kmcpp/result_overlap.dat","r")
     next(F)
     h = get_h(word2id)
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
@@ -363,18 +363,16 @@ def convert_cp_overlap(domain,method):
         old_peris = map(int,p[3:])
         source = id2word[core]
         G.write("%s %f "%(source,coreness))
-        # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         # temp_peris = [peri for peri in old_peris]
         peris = sort_peris(old_peris,core,h,id2word)
         G.write('%s\n'%' '.join(peris))
-        # print ('%s\n'%','.join(peris))
     G.close() 
     F.close()
     pass
 
 # sort peris by coreness in decsending order
 # also assign the coreness at the same time
-def sort_peris(peris_list,core,h,id2word):
+def sort_peris(peris_list,source,h,id2word):
     # new_peris = []
     peris_vals = []
     for peri in peris_list:
@@ -391,7 +389,6 @@ def sort_peris(peris_list,core,h,id2word):
     # for (word,coreness) in coreness_list:
     #     if word in peris_list:
     #         new_peris.append(word+','+str(coreness)+' ')
-    
     return new_peris
 
 # def get_coreness_list(domain,wids):
