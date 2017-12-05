@@ -340,37 +340,38 @@ def convert_cp_nonoverlap(domain,method):
 # core coreness peri1,periscore1,peri2...
 # replace word_ids with words
 def convert_cp_overlap(domain,method):
-    wids = {}
-    wid_count = 0
+    word2id = {}
+    id2word = {}
+    count = 0
     with open("../data/word_ids") as wid_file:
         for line in wid_file:
-            wids[line.strip()] = wid_count
-            wid_count += 1
+            w = line.strip()
+            word2id[w] = count
+            id2word[count] = w
 
     new_cores = {}
     # cp_pairs = [] # in case there are multiple cores in the cp_pair
     F = open("../data/%s/result_%s_overlap.dat"%(domain,method),"r")
     # F = open("../../kmcpp/result_overlap.dat","r")
     next(F)
+    h = get_h()
+    G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for line in F:
         p = line.strip().split()
-        new_cores[int(p[0])]={"coreness":float(p[2]),"cp_pair":int(p[1]),"peris":map(int,p[3:])}
-    F.close()
-    # print new_cores   
-    print "loading ppmi.values.."
-    h = get_h()
-
-    G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
-    for core in new_cores:
-        source = wids.keys()[wids.values().index(core)]
+        core = int(p[0])
+        coreness = float(p[2])
+        cp_pair = int(p[1])
+        old_peris = map(int,p[3:])
+        source = id2word[core]
         # print '===='+source+'===='
-        G.write("%s %f "%(source,new_cores[core]['coreness']))
+        G.write("%s %f "%(source,coreness))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
-        temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
+        temp_peris = [id2word[peri] for peri in old_peris]
         peris = sort_peris(temp_peris,source,h)
         G.write('%s\n'%' '.join(peris))
         # print ('%s\n'%','.join(peris))
     G.close() 
+    F.close()
     pass
 
 # sort peris by coreness in decsending order
@@ -407,13 +408,17 @@ def sort_peris(peris_list,source,h):
 #     coreness_list.sort(lambda x, y: -1 if x[1] > y[1] else 1)
 #     return coreness_list
 
-def get_h():
+
+
+def get_h(word2id):
     ppmi_fname = "../data/ppmi.values"
-    h = {}
+    N = len(word2id)
+    h = numpy.zeros((N, N), dtype=numpy.float64)
     with open(ppmi_fname) as ppmi_file:
         for line in ppmi_file:
             p = line.strip().split()
-            h[(p[0], p[1])] = float(p[2])
+            fid, sid, ppmi = word2id[p[0]], word2id[p[1]], float(p[2])
+            h[fid,sid] = ppmi
     return h
 
 if __name__ == '__main__':
