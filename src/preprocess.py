@@ -365,8 +365,8 @@ def convert_cp_overlap(domain,method):
         source = id2word[core]
         G.write("%s %f "%(source,coreness))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
-        temp_peris = [peri for peri in old_peris]
-        peris = sort_peris(temp_peris,core,h,id2word)
+        # temp_peris = [peri for peri in old_peris]
+        peris = sort_peris(old_peris,core,h,id2word)
         G.write('%s\n'%' '.join(peris))
         # print ('%s\n'%','.join(peris))
     G.close() 
