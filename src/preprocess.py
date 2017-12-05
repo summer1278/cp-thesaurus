@@ -282,6 +282,7 @@ def convert_cp_nonoverlap(domain,method):
             w = line.strip()
             word2id[w] = count
             id2word[count] = w
+            count+=1
 
     cores = {}
     cp_pairs = []
@@ -309,7 +310,6 @@ def convert_cp_nonoverlap(domain,method):
     # print new_cores
 
     F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
-    # F = open("../../kmcpp/result.dat","r")
     next(F)
     for line in F:
         p =line.strip().split()
@@ -348,6 +348,7 @@ def convert_cp_overlap(domain,method):
             w = line.strip()
             word2id[w] = count
             id2word[count] = w
+            count+=1
 
     new_cores = {}
     # cp_pairs = [] # in case there are multiple cores in the cp_pair
