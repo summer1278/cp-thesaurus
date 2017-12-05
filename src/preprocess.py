@@ -320,13 +320,12 @@ def convert_cp_nonoverlap(domain,method):
     F.close()
 
     print "loading ppmi.values.."
-    h = get_h()
+    h = get_h(word2id)
 
     # write each core with coreness and its peris as a line
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
     for core in new_cores:
         source = wids.keys()[wids.values().index(core)]
-        print '===='+source+'===='
         G.write("%s %f "%(source,new_cores[core]['coreness']))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
         temp_peris = [wids.keys()[wids.values().index(peri)] for peri in new_cores[core]['peris']]
@@ -354,7 +353,7 @@ def convert_cp_overlap(domain,method):
     F = open("../data/%s/result_%s_overlap.dat"%(domain,method),"r")
     # F = open("../../kmcpp/result_overlap.dat","r")
     next(F)
-    h = get_h()
+    h = get_h(word2id)
     G = open("../data/%s/cpwords_%s_overlap.dat"%(domain,method) ,"w")
     for line in F:
         p = line.strip().split()
