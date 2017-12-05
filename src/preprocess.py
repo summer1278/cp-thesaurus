@@ -363,11 +363,10 @@ def convert_cp_overlap(domain,method):
         cp_pair = int(p[1])
         old_peris = map(int,p[3:])
         source = id2word[core]
-        # print '===='+source+'===='
         G.write("%s %f "%(source,coreness))
         # print ("%s,%f,"%(wids.keys()[wids.values().index(core)],new_cores[core]['coreness']))
-        temp_peris = [id2word[peri] for peri in old_peris]
-        peris = sort_peris(temp_peris,source,h)
+        temp_peris = [peri for peri in old_peris]
+        peris = sort_peris(temp_peris,core,h,id2word)
         G.write('%s\n'%' '.join(peris))
         # print ('%s\n'%','.join(peris))
     G.close() 
@@ -376,7 +375,7 @@ def convert_cp_overlap(domain,method):
 
 # sort peris by coreness in decsending order
 # also assign the coreness at the same time
-def sort_peris(peris_list,source,h):
+def sort_peris(peris_list,core,h,id2word):
     # new_peris = []
     peris_vals = []
     for peri in peris_list:
@@ -389,7 +388,7 @@ def sort_peris(peris_list,source,h):
         else:
             print "skip %s,%s" %(source,peri)
     peris_vals.sort(lambda x, y: -1 if x[1] > y[1] else 1)
-    new_peris = [peri+','+str(val) for (peri,val) in peris_vals]
+    new_peris = [id2word[peri]+','+str(val) for (peri,val) in peris_vals]
     # for (word,coreness) in coreness_list:
     #     if word in peris_list:
     #         new_peris.append(word+','+str(coreness)+' ')
