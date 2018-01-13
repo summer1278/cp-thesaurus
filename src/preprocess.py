@@ -303,7 +303,7 @@ def convert_cp_nonoverlap(domain,method):
             core_key = cores.keys()[[idx for idx,value in enumerate(cores.values()) if value['cp_pair']==cp_pair and value['coreness']==max(h)][0]]
             core_keys.append(core_key)
 
-    print len(core_keys),len(set(cp_pairs))
+    # print len(core_keys),len(set(cp_pairs))
 
     # only use max(coreness) as core
     new_cores = {k: cores[k] for k in core_keys}
@@ -326,6 +326,7 @@ def convert_cp_nonoverlap(domain,method):
     for core in new_cores:
         source = id2word[core]
         coreness = new_cores[core]['coreness']
+        print new_cores[core]
         G.write("%s %f "%(source,coreness))
         old_peris = new_cores[core]['peris']
         peris = sort_peris(old_peris,core,h,id2word)
@@ -417,7 +418,7 @@ def convert_cp_overlap(domain,method):
 # also assign the coreness at the same time
 def sort_peris(peris_list,source,h,id2word):
     peris_vals = []
-    print peris_list
+    # print peris_list
     for peri in peris_list:
         if (source, peri) in h:
             val = h[(source, peri)]
