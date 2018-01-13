@@ -304,13 +304,14 @@ def convert_cp_nonoverlap(domain,method):
             core_keys.append(core_key)
 
     # print len(core_keys),len(set(cp_pairs))
-
+    print "cores found"
     # only use max(coreness) as core
     new_cores = {k: cores[k] for k in core_keys}
     # print new_cores
 
     F = open("../data/%s/result_%s_nonoverlap.dat"%(domain,method),"r")
     next(F)
+    count = 0
     for line in F:
         p =line.strip().split()
         if int(p[0]) not in core_keys:
@@ -319,8 +320,10 @@ def convert_cp_nonoverlap(domain,method):
             if h:
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
-                print new_cores
+        count += 1
+        print count, len(F)
     F.close()
+    print "peris added"
 
     h = get_h(word2id)
     G = open("../data/%s/cpwords_%s_nonoverlap.dat"%(domain,method) ,"w")
