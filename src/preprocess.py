@@ -321,7 +321,7 @@ def convert_cp_nonoverlap(domain,method):
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
         count += 1
-        print count, len(F)
+        print "current line:", count
     F.close()
     print "peris added"
 
