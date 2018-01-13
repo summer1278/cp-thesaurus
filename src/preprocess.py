@@ -331,7 +331,7 @@ def convert_cp_nonoverlap(domain,method):
     for core in new_cores:
         source = id2word[core]
         coreness = new_cores[core]['coreness']
-        print "processing",source
+        print "processing: ",source
         G.write("%s %f "%(source,coreness))
         old_peris = new_cores[core]['peris']
         peris = sort_peris(old_peris,core,h,id2word)
