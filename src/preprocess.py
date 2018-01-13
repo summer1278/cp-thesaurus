@@ -315,7 +315,7 @@ def convert_cp_nonoverlap(domain,method):
         p =line.strip().split()
         if int(p[0]) not in core_keys:
             h = [idx for idx,value in enumerate(new_cores.values()) if value['cp_pair']==int(p[1])]
-            # print h
+            print h
             if h:
                 temp_key = new_cores.keys()[h[0]]
                 new_cores[temp_key]['peris'].append(int(p[0]))
