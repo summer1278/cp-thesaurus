@@ -24,7 +24,7 @@ def runner_nonoverlap(domain):
 
 def runner_overlap(domain):
     # run km_overlap
-    # call('time ../kmcpp/./km_overlap ../data/ppmi_links.dat ../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_overlap.dat 10'%(domain,domain), shell=True)
+    # call('time ../../kmcpp/./km_overlap ../data/ppmi_links.dat ../data/%s/ppmi_coreness.dat ../data/%s/result_ppmi_overlap.dat 10'%(domain,domain), shell=True)
     preprocess.convert_cp_overlap(domain,'ppmi')
     expand.main(domain,'overlap')
     pass
