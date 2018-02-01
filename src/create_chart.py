@@ -35,13 +35,16 @@ def drawer(domains,ks,title):
     m_i = 0
     for domain in domains:
         y = collector(domain)
-        p = plt.plot(index,y,linestyle='--',label = domain,marker = markers[m_i],markersize=10,fillstyle='none')
+        p = plt.plot(index,y,linestyle='--',label = domain,
+                    marker = markers[m_i],markersize=10,fillstyle='none')
         color = p[0].get_color()
         for i in range(0,len(index)):
             if y[i] == max(y):
-                plt.plot(index[i],y[i],marker = markers[m_i],markersize=10,color=color)
+                plt.plot(index[i],y[i],
+                    marker = markers[m_i],markersize=10,color=color)
             else:
-                plt.plot(index[i],y[i],marker = markers[m_i],markersize=10,color=color,fillstyle='none')
+                plt.plot(index[i],y[i],
+                    marker = markers[m_i],markersize=10,color=color,fillstyle='none')
         m_i +=1
     plt.xticks(index,ks)
     plt.title(title)
