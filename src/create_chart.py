@@ -26,7 +26,6 @@ def collector(domain):
         y.append(float(p[4]))
     return y
 
-
 def drawer(domains,ks,title):
     fig, ax = plt.subplots(figsize=(8,6))
     index = np.arange(len(ks))
