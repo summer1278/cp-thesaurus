@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 font = {'family' : 'normal',
         'weight' : 'regular',
-        'size'   : 16}
+        'size'   : 18}
 matplotlib.rc('font', **font)
 
 def collector(domain):
@@ -23,7 +23,7 @@ def collector(domain):
         # print p
         if len(p) < 4:
             continue
-        y.append(float(p[4]))
+        y.append(float(p[4])*100)
     return y
 
 def drawer(domains,ks,title):
@@ -57,14 +57,14 @@ def drawer(domains,ks,title):
     plt.legend(fontsize=14)
     plt.grid()
     if title == 'DA':
-        plt.ylim([0.65,0.85])
+        plt.ylim([65,85])
     plt.savefig('../%s.png'%title)
     plt.show()
     pass
 
 ks = [10,100,500,1000]
-title = 'Non-DA'
-domains = ['TR','CR','SUBJ','MR']
-# title = 'DA'
-# domains = ['B-D','B-E','B-K','D-B','D-E','D-K','E-B','E-D','E-K','K-B','K-D','K-E']
+# title = 'Non-DA'
+# domains = ['TR','CR','SUBJ','MR']
+title = 'DA'
+domains = ['B-D','B-E','B-K','D-B','D-E','D-K','E-B','E-D','E-K','K-B','K-D','K-E']
 drawer(domains,ks,title)
