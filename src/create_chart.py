@@ -27,7 +27,7 @@ def collector(domain):
     return y
 
 def drawer(domains,ks,title):
-    fig, ax = plt.subplots(figsize=(8,6))
+    fig, ax = plt.subplots(figsize=(8,7))
     index = np.arange(len(ks))
     markers = ['o','s']*(len(domains)/2)
     # linestyles= ['--',':']*(len(domains)/2)
@@ -47,14 +47,14 @@ def drawer(domains,ks,title):
         m_i +=1
     plt.xticks(index,ks)
     plt.title(title)
-    plt.xlabel("$k$ (#candidates)")
-    plt.ylabel("Accuracy")
+    plt.xlabel("$k$ (#candidates)",size=20)
+    plt.ylabel("Accuracy (%)")
     #right box
     # box = ax.get_position()
     # ax.set_position([box.x0-box.width*0.05, box.y0 , box.width*0.95, box.height])
     # ax.legend(loc='upper center', bbox_to_anchor=(1.1,0.9),
     #           fancybox=True, shadow=True, ncol=1)
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=16)
     plt.grid()
     if title == 'DA':
         plt.ylim([65,85])
@@ -63,8 +63,8 @@ def drawer(domains,ks,title):
     pass
 
 ks = [10,100,500,1000]
-# title = 'Non-DA'
-# domains = ['TR','CR','SUBJ','MR']
-title = 'DA'
-domains = ['B-D','B-E','B-K','D-B','D-E','D-K','E-B','E-D','E-K','K-B','K-D','K-E']
+title = 'Non-DA'
+domains = ['TR','CR','SUBJ','MR']
+# title = 'DA'
+# domains = ['B-D','B-E','B-K','D-B','D-E','D-K','E-B','E-D','E-K','K-B','K-D','K-E']
 drawer(domains,ks,title)
