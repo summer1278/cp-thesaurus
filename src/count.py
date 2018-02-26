@@ -14,7 +14,7 @@ def count_CP(CP_fname):
             p = line.strip().split()
             core +=1
             peris = sum([1 for x in p[2:]])
-            # print "current = ",core,peris
+            print "current = ",core,peris
             all_peris.append(peris)
     print CP_fname
     # print "all = ", core, all_peris
