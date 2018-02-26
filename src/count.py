@@ -25,6 +25,6 @@ def count_CP(CP_fname):
 if __name__ == '__main__':
     # dataset = "TR"
     # CP_fname = "../data/%s/cpwords_ppmi_overlap1.dat" %dataset
-    # CP_fname = "../data/cp-overalp.ppmi"
-    CP_fname = "../data/cp-nonoveralp.ppmi"
+    # CP_fname = "../data/cp-overlap.ppmi"
+    CP_fname = "../data/cp-nonoverlap.ppmi"
     count_CP(CP_fname)
