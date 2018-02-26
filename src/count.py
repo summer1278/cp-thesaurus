@@ -32,10 +32,10 @@ def count_by_option(option,dataset="TR"):
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        option = sys.argv[1]
+        option = int(sys.argv[1])
         count_by_option(option)
     elif len(sys.argv) > 2:
-        option = sys.argv[1]
+        option = int(sys.argv[1])
         dataset = sys.argv[2]
         count_by_option(option,dataset)
     else:
