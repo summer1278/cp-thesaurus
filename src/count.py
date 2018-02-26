@@ -24,7 +24,7 @@ def count_CP(CP_fname):
 
 def count_by_option(option,dataset="TR"):
     # 
-    CP_fnames = {1:"../data/%s/cpwords_ppmi_overlap1.dat" %dataset,
+    CP_fnames = {1:"../data/%s/cpwords_ppmi_overlap.dat" %dataset,
         2:"../data/cp-overlap.ppmi",
         3:"../data/cp-nonoverlap.ppmi"}
     
