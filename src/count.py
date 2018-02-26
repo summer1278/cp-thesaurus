@@ -31,7 +31,7 @@ def count_by_option(option,dataset="TR"):
     count_CP(CP_fnames[option])
 
 if __name__ == '__main__':
-    if len(sys.argv) = 2:
+    if len(sys.argv) == 2:
         option = sys.argv[1]
         count_by_option(option)
     elif len(sys.argv) > 2:
