@@ -4,7 +4,7 @@ Count CP
 Xia Cui
 02/2018
 """
-import numpy,math
+import numpy,math,sys
 
 def count_CP(CP_fname):
     all_peris = []
