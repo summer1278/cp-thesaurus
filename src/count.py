@@ -14,17 +14,31 @@ def count_CP(CP_fname):
             p = line.strip().split()
             core +=1
             peris = sum([1 for x in p[2:]])
-            print "current = ",core,peris
+            # print "current = ",core,peris
             all_peris.append(peris)
     print CP_fname
-    print "all = ", core, all_peris
+    # print "all = ", core, all_peris
     average = float(sum(all_peris))/float(core)
     print "average = ", average
     pass
 
+def count_by_option(option,dataset="TR"):
+    # 
+    CP_fnames = {1:"../data/%s/cpwords_ppmi_overlap1.dat" %dataset,
+        2:"../data/cp-overlap.ppmi",
+        3:"../data/cp-nonoverlap.ppmi"}
+    
+    count_CP(CP_fnames[option])
+
 if __name__ == '__main__':
-    # dataset = "TR"
-    # CP_fname = "../data/%s/cpwords_ppmi_overlap1.dat" %dataset
-    # CP_fname = "../data/cp-overlap.ppmi"
-    CP_fname = "../data/cp-nonoverlap.ppmi"
-    count_CP(CP_fname)
+    if len(sys.argv) = 2:
+        option = sys.argv[1]
+        count_by_option(option)
+    elif len(sys.argv) > 2:
+        option = sys.argv[1]
+        dataset = sys.argv[2]
+        count_by_option(option,dataset)
+    else:
+        print "usage: <option: 1:overlap+coress, 2:overlap, 3:nonoverlap> <dataset: for 1 only>"
+    pass
+    
