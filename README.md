@@ -1,7 +1,6 @@
 # cp-thesaurus
 core-peri thesaurus for feature expansion
 
-Publication:
 ```
 @inproceedings{cui2018solving,
   title={Solving Feature Sparseness in Text Classification using Core-Periphery Decomposition},
