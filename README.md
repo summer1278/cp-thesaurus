@@ -1,6 +1,16 @@
 # cp-thesaurus
 core-peri thesaurus for feature expansion
 
+Publication:
+@inproceedings{cui2018solving,
+  title={Solving Feature Sparseness in Text Classification using Core-Periphery Decomposition},
+  author={Cui, Xia and Kojaku, Sadamori and Masuda, Naoki and Bollegala, Danushka},
+  booktitle={Proceedings of the Seventh Joint Conference on Lexical and Computational Semantics},
+  pages={255--264},
+  year={2018}
+}
+
+
 ## preprocess.py
 - ```word_ids_generator()```: generate ```word_ids``` in ```../data/```
 - ```compute_links()```: generate and store ```ppmi_links``` in ```../data/``` (requires: ```word_ids```, ```ppmi.values```)
