@@ -2,6 +2,7 @@
 core-peri thesaurus for feature expansion
 
 Publication:
+```
 @inproceedings{cui2018solving,
   title={Solving Feature Sparseness in Text Classification using Core-Periphery Decomposition},
   author={Cui, Xia and Kojaku, Sadamori and Masuda, Naoki and Bollegala, Danushka},
@@ -9,6 +10,7 @@ Publication:
   pages={255--264},
   year={2018}
 }
+```
 
 
 ## preprocess.py
